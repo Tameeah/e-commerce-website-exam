@@ -1,0 +1,340 @@
+/* font */
+@font-face {
+    font-family: Anton;
+    src: url("../Assets/Fonts/Anton-Regular.ttf");
+}
+
+/* token Key */
+:root {
+    --color-burgandy: #70020F;
+    --color-yellow-hover: #FFEBA2;
+    --color-mercury: #E7E7E7;
+    --color-white: #FFFFFF;
+    --color-black: #0D0000;
+
+    --font-heading: Anton, sans-serif;
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+
+    --border-radius-pill: 50px;
+    --border-radius-card: 20px;
+    --container-max-width: 1280px;
+
+
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: var(--font-body);
+    background-color: var(--color-mercury);
+    color: var(--color-dark-text);
+    line-height: 1.5;
+    overflow-x: hidden;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+}
+
+/* Buttons */
+
+.btn {
+    display: inline-block;
+    padding: 10px 28px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    border-radius: var(--border-radius-pill);
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    text-align: center;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.primary-btn {
+    background-color: var(--color-burgandy);
+  color: var(--color-white);
+}
+
+.primary-btn:hover {
+  background-color: var(--color-yellow-hover);
+}
+
+.secondary-btn {
+  background-color: var(--color-burgandy);
+  color: var(--color-white);
+}
+
+.secondary-btn:hover {
+  background-color: var(--color-yellow-hover);
+}
+
+/* Navigation Bar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 48px;
+    background-color: transparent;
+    position: relative;
+    z-index: 100;
+}
+
+.brand-logo {
+  height: 36px;
+  width: auto;
+}
+
+.nav-links a {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-black);
+    transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+    color: var(--color-burgandy);
+}
+
+.nav-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.icon-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--color-black);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Hero Section */ 
+
+.hero-section {
+    position: relative;
+    min-height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 64px;
+    background-image: linear-gradient(rgba(248, 246, 242, 0.2), rgba(248, 246, 242, 0.2)),
+    url('assets/hero-bg.jpg');
+
+    background-size: cover;
+    background-position: center center;
+}
+
+.hero-content {
+  max-width: 480px;
+  z-index: 2;
+}
+
+.hero-title {
+    font-family: var(--font-heading);
+    font-size:3.5rem;
+    line-height:1.1;
+    color: var(--color-burgandy);
+    text-transform: uppercase;
+    letter-spacing: -0.5px;
+    margin-bottom: 24px;
+}
+
+.hero-graphic-container {
+  position: absolute;
+  right: 8%;
+  top: 30%;
+  pointer-events: none;
+}
+
+.floating-bow {
+  width: 180px;
+  height: auto;
+  opacity: 0.85;
+}
+
+/* Featured Pieces Section */
+.featured-section {
+    background-color: var(--color-burgandy);
+    color: var(--color-white);
+    padding: 60px 48px 48px 48px;
+    position: relative;
+}
+
+.featured-section .section-heading {
+    font-family: var(--font-heading);
+    font-size: 2.2rem;
+    color: var(--color-white);
+    margin-bottom: 24px;
+    letter-spacing: 0.5px;
+}
+
+.products-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-bottom: 32px;
+}
+
+/* API styling of product cards */
+.product-card {
+    background-color: transparent;
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3 ease;
+}
+
+.product-card:hover {
+    transform: translateY(-6px);
+}
+
+.product-image-wrap {
+    width: 100%;
+    aspect-ratio: 4 / 5;
+    border-radius: var(--border-radius-card);
+    overflow: hidden;
+    background-color: var(--color-mercury);
+    margin-bottom: 12px;
+}
+
+.product-image-wrap img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.product-info {
+  color: var(--color-white);
+}
+
+.product-title {
+  font-size: 0.9rem;
+  font-weight: 400;
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.product-price {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-white);
+}
+
+/* Pagination Dots */
+.pagination-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.35);
+  transition: background-color 0.2s ease;
+}
+
+.dot.active {
+  background-color: var(--color-white);
+}
+
+.featured-section .section-cta {
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Brand Short Intro  */
+
+.intro-section {
+    padding: 80px 64px;
+    background-color: var(--color-mercury);
+}
+
+.intro-grid {
+    max-width: var(--container-max-width);
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+}
+
+.intro-col {
+    display: flex;
+    flex-direction: column;
+    gap: 32px;
+}
+
+.intro-heading {
+    font-family: var(--font-heading);
+    font-size: 3.2rem;
+    line-height: 1.05;
+    color: var(--color-burgandy);
+    text-align: right;
+    text-transform: lowercase;
+}
+
+.intro-block {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgb(0, 0, 0, 0.05 );
+    transition: trasnform 0.3s ease;
+}
+
+/* .image-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.small-card {
+  width: 180px;
+  aspect-ratio: 1;
+}
+
+.medium-card {
+  width: 260px;
+  aspect-ratio: 4/3;
+}
+
+.large-card {
+  width: 320px;
+  aspect-ratio: 3/4;
+}
+
+.community-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.social-text {
+  font-size: 0.85rem;
+  color: #666;
+}
+
+
+
