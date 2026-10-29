@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop All | That's T</title>
+    <link rel="stylesheet" href="../CSS/shopall.css" />
+
+    <!-- GSAP scripts here --> 
+
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <header class="navbar">
+        <a href="index.html" class="logo-container">
+            <img src="" alt="Logo" alt="Brand Logo" class="brand-logo" />
+        </a>
+
+        <nav class="nav-links">
+            <a href="shop.html"class="active-nav"> shop all</a>
+            <a href="about.html"> that's t</a>
+            <a href="contact.html"> contact</a>
+        </nav>
+
+        <!--search input here-->
+    </header>
+
+    <main class="shop-main">
+        <!--Page heading and categorgies-->
+        <div class="shop-header-section">
+            <h1 class="page-main-heading">Our Pieces</h1>
+
+            <div class="shop-controls-bar"></div>
+
+                 <div class="shop-controls-bar">
+                    <button class="cat-tab active" data-category="all">all</button>
+                    <button class="cat-tab" data-category="tops">tops</button>
+                    <button class="cat-tab" data-category="skirts">skirts</button>
+                    <button class="cat-tab" data-category="dresses">dresses</button>
+                </div>
+
+            <!--Filter-->
+                <div class="filter-dropdown-wrap">
+                    <label for="sort-select" class="filter-label">filter</label>
+                    <select id="sort-select" class="sort-select">
+                        <option value="featured">featured</option>
+                        <option value="low-high">Price: Low to High</option>
+                        <option value="high-low">Price: High to Low</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+
+        <!--products in a grid display-->
+        <section class="shop-grid-section">
+            <div id="shop-products-grid" class="shop-products-grid">
+                <!--js and API fectch data for products-->
+            </div>
+        </section>
+
+    </main>
+
+    <script src="../JS/shopall.js"></script>
+    
+</body>
+</html>
