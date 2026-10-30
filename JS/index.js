@@ -4,6 +4,46 @@ const featuredGrid = document.getElementById('featured-products-grid');
 //API Endpoint for clothing items from DUmmyJSON 
 const API_URL = "https://dummyjson.com/products/category/womens-dresses";
 
+//Global Nav bar interactions 
+document.addEventListener('DOMContentLoaded', () => {
+    const searchToggleBtn = document.getElementById('search-toggle-btn');
+    const searchInput = document.getElementById('global-search-input');
+
+    //Search bar Toogle
+    if (searchToggleBtn && searchInput) {
+        searchToggleBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            searchInput.classList.toggle('active');
+            if (searchInput.classList.contains('active')) {
+                searchInput.focus();
+            } else {
+                searchInput.value = '';
+            }
+        });
+
+        //close search input
+        document.addEventListener('click', (e) => {
+            if (!e.target.closest('.search-container')) {
+                searchInput.classList.remove('active');
+            }
+        });
+
+        //trigger search on enter key
+        searchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                const query = searchInput.value.trim();
+                if (query) {
+                    window.location.href = `shop.html?search=${encodeURIComponent(query)}`;
+                }
+            }
+        });
+    }
+
+    if (featuredGrid) {
+        loadFeaturedProducts();
+    }
+});
+
 //function to fetch and display products
 async function loadFeaturedProducts() {
     // 1. Loading State 
@@ -61,5 +101,3 @@ async function loadFeaturedProducts() {
     }
 }
 
-// call the function on the page load
-document.addEventListener('DOMContentLoaded', loadFeaturedProducts);
