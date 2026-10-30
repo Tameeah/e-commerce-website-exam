@@ -15,21 +15,33 @@
     <!-- Navigation Bar -->
     <header class="navbar">
         <a href="index.html" class="logo-container">
-            <img src="" alt="Logo" alt="Brand Logo" class="brand-logo" />
+            <img src="../Assets/images/Logo.png" alt="Logo" alt="Brand Logo" class="brand-logo" />
         </a>
 
         <nav class="nav-links">
-            <a href="shop.html"> shop all</a>
-            <a href="about.html"> that's t</a>
-            <a href="contact.html"> contact</a>
+            <div class="dropdown-wrap">
+                <a href="shop.html" class="nav-item shop-link">shop all</a>
+                <div class="dropdown-menu">
+                    <a href="shop.html?category=tops">tops</a>
+                    <a href="shop.html?category=skirts">skirts</a>
+                    <a href="shop.html?category=dresses">dresses</a>
+                </div>
+            </div>
+
+            <a href="about.html" class="nav-items"> that's t</a>
+            <a href="contact.html" class="nav-item"> contact</a>
         </nav>
 
         <div class="nav-actions">
-            <button class="icon-btn" aria-label="Search">
+            <div class="search-container" id="search-container">
+                <input type="text" id="global-search-imput" placeholder="search" class="search-input" />
+                <button class="icon-btn" id="search-toggle-btn" aria-lable="Search">
+                    <!--svg here-->
+                </button>
+            </div>
 
-            </button>
             <button class="icon-btn" aria-label="Bag">
-                
+                <!--svg here-->
             </button>
         </div>  
     </header>
@@ -45,7 +57,7 @@
 
             <div class="hero-graphic-container">
                 <!-- Bow image that will animate GSAP-->
-                 <img src="" alt="Bow Graphic" class="hero-bow" />
+                 <img src="../Assets/images/Logo.png" alt="Bow Graphic" class="hero-bow" />
             </div>
          </section>
 
@@ -79,7 +91,7 @@
                 <!-- Left COlumn -->
                 <div class="intro-col left-col">
                     <div class="image-card small-img">
-                        <img src="../Assets/images/Patches.jpeg" alt="patches" />
+                        <img src="../Assets/images/Thread.png" alt="patches" />
                     </div>
                     <p class="intro-text">
                         intro the the brand insert here
