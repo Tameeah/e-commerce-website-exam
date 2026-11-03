@@ -267,26 +267,66 @@ img {
 
 /* Featured Pieces Section */
 .featured-section {
-    background-color: var(--color-burgandy);
-    color: var(--color-white);
-    padding: 60px 48px 48px 48px;
-    position: relative;
+  background-color: var(--color-burgandy);
+  color: var(--color-white);
+  padding: 60px 48px 48px 48px;
+  position: relative;
 }
 
 .featured-section .section-heading {
-    font-family: var(--font-heading);
-    font-size: 2.5rem;
-    letter-spacing: 0.5px;
-    color: var(--color-white);
-    margin-bottom: 24px;
-    letter-spacing: 0.5px;
+  font-family: var(--font-heading);
+  font-size: 2.5rem;
+  color: var(--color-white);
+  margin: 0;
 }
 
-.products-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-    margin-bottom: 32px;
+/* horizonatal side-scroll grid container */
+.featured-scroll-wrapper {
+  width: 100%;
+  overflow-x: auto;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  margin-bottom: 32px;
+}
+
+.featured-scroll-wrapper:active {
+  cursor: grabbing;
+}
+
+.featured-scroll-wrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.products-scroll-grid {
+  display: flex;
+  gap: 24px;
+  padding-bottom: 8px;
+}
+
+.products-scroll-grid .product-card {
+  min-width: 260px;
+  flex: 0 0 auto;
+}
+
+/* Pagination Dot styling */
+.pagination-dots {
+  display:flex; 
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.35);
+  transition: background-color 0.2s ease;
+}
+
+.dot.active {
+  background-color: var(--color-white);
 }
 
 /* API styling of product cards */
