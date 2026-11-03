@@ -2,7 +2,8 @@
 const featuredGrid = document.getElementById('featured-products-grid');
 
 //API Endpoint for clothing items from DUmmyJSON 
-const API_URL = "https://dummyjson.com/products?limit=50";
+const API_URL = "https://dummyjson.com/products/category/womens-dresses?limit=12";
+
 //Global Nav bar interactions 
 document.addEventListener('DOMContentLoaded', () => {
     const searchToggleBtn = document.getElementById('search-toggle-btn');
@@ -103,7 +104,7 @@ async function loadFeaturedProducts() {
         }     
     }
 
-// Robust Scroll Pagination Function
+//function to update scroll pagniation dots
 function setupScrollPagination() {
     const scrollWrapper = document.getElementById('featured-scroll-wrapper');
     const dotsContainer = document.getElementById('pagination-dots');
@@ -111,45 +112,30 @@ function setupScrollPagination() {
     if (!scrollWrapper || !dotsContainer) return;
 
     const cards = scrollWrapper.querySelectorAll('.product-card');
-    if (cards.length === 0) return; 
+    if(cards.length === 0) return; 
 
-    // Generate one dot per product card so the indicator maps precisely
-    const totalDots = cards.length;
-    dotsContainer.innerHTML = '';
+    const totalDots = Math.min(cards.length,4);
+    dotsContainer.innerHTML = ''
 
-    const dots = [];
-    for (let i = 0; i < totalDots; i++) {
+    for (let i=0; i < totalDots; i++) {
         const dot = document.createElement('span');
-        dot.className = `dot ${i === 0 ? 'active' : ''}`;
-        
-        // Allow clicking a dot to scroll smoothly to that product card
-        dot.addEventListener('click', () => {
-            cards[i].scrollIntoView({ behavior: 'smooth', inline: 'start', block: 'nearest' });
-        });
-
+        dot.className = `dot ${i === 0 ? `active` : ''}`;
         dotsContainer.appendChild(dot);
-        dots.push(dot);
     }
 
-    // Update active dot based on which card is currently closest to the left edge of the scroll wrapper
-    scrollWrapper.addEventListener('scroll', () => {
-        let closestIndex = 0;
-        let minDistance = Infinity;
+    const dots = dotsContainer.querySelectorAll('.dot');
 
-        cards.forEach((card, index) => {
-            const distance = Math.abs(card.offsetLeft - scrollWrapper.scrollLeft);
-            if (distance < minDistance) {
-                minDistance = distance;
-                closestIndex = index;
-            }
-        });
+    scrollWrapper.addEventListener('scroll', () => {
+        const scrollPercentage = scrollWrapper.scrollLeft / (scrollWrapper.scrollWidth - scrollWrapper.clientWidth);
+        const activeIndex = Math.min(Math.floor(scrollPercentage * totalDots), totalDots - 1);
 
         dots.forEach((dot, index) => {
-            if (index === closestIndex) {
-                dot.classList.add('active');
+            if (index === activeIndex) {
+                    dot.classList.add('active');
             } else {
-                dot.classList.remove('active');
+                 dot.classList.remove('active');
             }
         });
-    });         
+    });        
 }
+
