@@ -1,10 +1,10 @@
 const detailContainer = document.getElementById('product-detail-container');
 
-//1. get product ID from URL parameters 
-const urlParms = new URLSearchParams(window.location.search);
-const productId = urlParms.get('id') || '1';
+// 1. Get product ID from URL parameters 
+const urlParams = new URLSearchParams(window.location.search);
+const productId = urlParams.get('id') || '1';
 
-//2. fetch single product from API 
+// 2. Fetch single product from API 
 async function fetchProductDetails() {
     try {
         const response = await fetch(`https://dummyjson.com/products/${productId}`);
@@ -19,11 +19,13 @@ async function fetchProductDetails() {
     }
 }
 
-//3. render product details 
+// 3. Render product details 
 function renderProductDetails(product) {
+    // Fixed: Calculated priceInZar so it exists before being used below!
+    const priceInZar = Math.round(product.price * 18);
 
-    //use product images array
-    const images = product.images && product.images.length> 0? product.images: [product.thumbnail];
+    // Use product images array
+    const images = product.images && product.images.length > 0 ? product.images : [product.thumbnail];
 
     detailContainer.innerHTML = `
     <div class="product-detail-grid">
@@ -68,6 +70,7 @@ function renderProductDetails(product) {
       </div>
     </div>
   `;
+
   // Initialize Gallery Slider Logic
   initGallerySlider(images);
 
@@ -75,7 +78,7 @@ function renderProductDetails(product) {
   initSizeSelector();
 }
 
-//4. image gallery slider 
+// 4. Image gallery slider 
 function initGallerySlider(images) {
     let currentIndex = 0;
     const activeImg = document.getElementById('active-gallery-img');
@@ -96,15 +99,19 @@ function initGallerySlider(images) {
         });
     }
 
-    nextBtn.addEventListener('click', () => {
-        const newIdx = (currentIndex + 1) % images.length;
-        updateImage(nextIdx);
-    });
+    if (nextBtn) {
+        nextBtn.addEventListener('click', () => {
+            const newIdx = (currentIndex + 1) % images.length;
+            updateImage(newIdx);
+        });
+    }
 
-    prevBtn.addEventListener('click', () => {
-        const prevIdx = (currentIndex - 1 + images.length) % images.length;
-        updateImage(prevIdx);
-    });
+    if (prevBtn) {
+        prevBtn.addEventListener('click', () => {
+            const prevIdx = (currentIndex - 1 + images.length) % images.length;
+            updateImage(prevIdx);
+        });
+    }
 
     dots.forEach((dot, idx) => {
         dot.addEventListener('click', () => updateImage(idx));
@@ -126,14 +133,16 @@ function initSizeSelector() {
 
   // Add to Bag Button Interaction
   const bagBtn = document.getElementById('add-to-bag-btn');
-  bagBtn.addEventListener('click', () => {
-    bagBtn.textContent = `added (${selectedSize}) ✓`;
-    bagBtn.style.backgroundColor = '#333';
-    setTimeout(() => {
-      bagBtn.textContent = 'add to bag';
-      bagBtn.style.backgroundColor = '';
-    }, 2000);
-  });
+  if (bagBtn) {
+    bagBtn.addEventListener('click', () => {
+      bagBtn.textContent = `added (${selectedSize}) ✓`;
+      bagBtn.style.backgroundColor = '#333';
+      setTimeout(() => {
+        bagBtn.textContent = 'add to bag';
+        bagBtn.style.backgroundColor = '';
+      }, 2000);
+    });
+  }
 }
 
 // Initial Call on Load
