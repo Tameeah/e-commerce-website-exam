@@ -65,7 +65,7 @@ img {
 }
 
 .primary-btn {
-    background-color: var(--color-burgandy);
+  background-color: var(--color-burgandy);
   color: var(--color-white);
 }
 
@@ -74,8 +74,8 @@ img {
 }
 
 .secondary-btn {
-  background-color: var(--color-burgandy);
-  color: var(--color-white);
+  background-color: var(--color-mercury);
+  color: var(--color-black);
 }
 
 .secondary-btn:hover {
@@ -103,7 +103,7 @@ img {
 
 .nav-links {
   display: flex;
-  gap: 56px;
+  gap: 100px;
   align-items: center;
 }
 
@@ -132,10 +132,8 @@ img {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: rgba(248, 246, 242, 0.95);
-  backdrop-filter: blur(6px);
+  background-color: transparent;
   padding: 16px 24px;
-  border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   opacity: 0;
   visibility: hidden;

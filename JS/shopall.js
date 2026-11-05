@@ -15,6 +15,7 @@ const categoryEndpoints = {
   dresses: "https://dummyjson.com/products/category/womens-dresses"
 };
 
+
 //1. fecth products by category
 async function fetchProducts(category = 'all') {
   productsGrid.innerHTML = `<div class="loading-state">Loading Pieces...</div>`;
@@ -46,7 +47,7 @@ function renderProducts(productsToRender) {
     const priceInZar = Math.round(item.price * 18);
 
     return `
-      <article class="shop-product-card">
+      <article class="shop-product-card" onclick="window.location.href='product.html?id=${item.id}'" style="cursor: pointer;">
         <div class="shop-img-wrap">
           <img src="${item.thumbnail}" alt="${item.title}" loading="lazy" />
         </div>
@@ -59,10 +60,18 @@ function renderProducts(productsToRender) {
   }).join('');
 }
 
+// Helper function for search filtering
+function filterProductsBySearch(query) {
+  const searchTerm = query.toLowerCase();
+  const filtered = currentProducts.filter(item => 
+    item.title.toLowerCase().includes(searchTerm)
+  );
+  renderProducts(filtered);
+}
+
 // 3. Category Tab 
 categoryTabs.forEach(tab => {
   tab.addEventListener('click', (e) => {
-  
     categoryTabs.forEach(t => t.classList.remove('active'));
     e.target.classList.add('active');
 
@@ -72,44 +81,63 @@ categoryTabs.forEach(tab => {
 });
 
 //4. filter
-sortSelect.addEventListener('change',(e) => {
-  let sortedArray = [...currentProducts];
-  const sortValue = e.target.value;
+if (sortSelect) { 
+  sortSelect.addEventListener('change',(e) => {
+    let sortedArray = [...currentProducts];
+    const sortValue = e.target.value;
 
-  if(sortValue === 'low-high') {
-    sortedArray.sort((a,b) => (a.price * 18) - (b.price * 18));
-  } else if (sortValue === 'high-low') {
-    sortedArray.sort((a, b) => (b.price * 18) - (a.price * 18));
-  }
+    if(sortValue === 'low-high') {
+      sortedArray.sort((a,b) => (a.price * 18) - (b.price * 18));
+    } else if (sortValue === 'high-low') {
+      sortedArray.sort((a, b) => (b.price * 18) - (a.price * 18));
+    }
+    
+    renderProducts(sortedArray);
+  });
+}
 
-  renderProducts(sortedArray);
-});
-
-//5. search bar
-
-let searchOpen = false;
-searchToggleBtn.addEventListener('click', () =>{
-  searchOpen = !searchOpen;
-  if (searchOpen) {
-    gsap.to(searchInput, { width: "200px", opacity: 1, duration: 0.3, ease: "power2.out" });
-    searchInput.focus();
-  } else {
-    gsap.to(searchInput, { width: "0px", opacity: 0, duration: 0.3, ease: "power2.in" });
-  }
-});
-
-searchInput.addEventListener('input', (e) => {
-  const searchTerm = e.target.value.toLowerCase();
-  const filtered = currentProducts.filter(item => 
-    item.title.toLowerCase().includes(searchTerm)
-  );
-  renderProducts(filtered);
-});
-
-// Initial load
+// 5. Global Navigation & Search Bar Interactions on DOM Load
 document.addEventListener('DOMContentLoaded', () => {
+  // Initial fetch for shop page products
   fetchProducts('all');
+
+  // Search bar Toggle & Navigation Logic (Matching index.js)
+  if (searchToggleBtn && searchInput) {
+    searchToggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      searchInput.classList.toggle('active');
+      if (searchInput.classList.contains('active')) {
+        searchInput.focus();
+      } else {
+        searchInput.value = '';
+        renderProducts(currentProducts); // Reset grid when closed
+      }
+    });
+
+    // Close search input when clicking outside
+    document.addEventListener('click', (e) => {
+      if (!e.target.closest('.search-container')) {
+        searchInput.classList.remove('active');
+      }
+    });
+
+    // Trigger search on enter key or live input
+    searchInput.addEventListener('input', (e) => {
+      filterProductsBySearch(e.target.value);
+    });
+
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        const query = searchInput.value.trim();
+        if (query) {
+          filterProductsBySearch(query);
+        }
+      }
+    });
+  }
 });
+
+
 
 
 

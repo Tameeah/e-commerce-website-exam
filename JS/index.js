@@ -78,7 +78,7 @@ async function loadFeaturedProducts() {
             const priceInZar = Math.round(item.price * 18);
 
             return `
-                <article class="product-card">
+                <article class="product-card" onclick="window.location.href='product.html?id=${item.id}'" style="cursor: pointer;">
                     <div class="product-image-wrap">
                         <img src="${item.thumbnail}" alt="${item.title}" class="product-image">
                     </div>
