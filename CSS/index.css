@@ -16,7 +16,7 @@
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 
     --border-radius-pill: 50px;
-    --border-radius-card: 20px;
+    --border-radius-card: 36px;
     --container-max-width: 1280px;
 
 
@@ -71,6 +71,7 @@ img {
 
 .primary-btn:hover {
   background-color: var(--color-yellow-hover);
+  color: var(--color-black);
 }
 
 .secondary-btn {
@@ -80,6 +81,7 @@ img {
 
 .secondary-btn:hover {
   background-color: var(--color-yellow-hover);
+  color: var(--color-black);
 }
 
 /* Navigation Bar */
@@ -222,11 +224,11 @@ img {
 
 .hero-section {
     position: relative;
-    min-height: 85vh;
+    min-height: 95vh;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 64px;
+    padding: 0 64px 60px 64px;
 
     background-image: linear-gradient(rgba(8, 8, 8, 0.2), rgba(39, 39, 39, 0.2)),
     url('../Assets/images/Home\ BG.JPG');
@@ -237,7 +239,18 @@ img {
 
 .hero-content {
   max-width: 480px;
-  z-index: 2;
+  height: 65vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  z-index: 2; 
+}
+
+.hero-content .btn,
+.hero-content a.btn,
+.hero-content button {
+  align-self: flex-start;
+  width: fit-content;
 }
 
 .hero-title {
@@ -245,7 +258,6 @@ img {
     font-size:4.5rem;
     line-height:1.1;
     color: var(--color-burgandy);
-    text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-bottom: 24px;
 }
@@ -275,7 +287,7 @@ img {
   font-family: var(--font-heading);
   font-size: 2.5rem;
   color: var(--color-white);
-  margin: 0;
+  margin: 0 0 36px 0;
 }
 
 /* horizonatal side-scroll grid container */
@@ -423,10 +435,9 @@ img {
 
 .intro-heading {
     font-family: var(--font-heading);
-    font-size: 2.4rem;
-    line-height: 1.05;
+    font-size: 2.8rem;
+    line-height: 1.5;
     color: var(--color-burgandy);
-    text-transform: uppercase;
     text-align: right;
 }
 
@@ -438,7 +449,7 @@ img {
 }
 
  .image-card {
-  border-radius: 10px;
+  border-radius: 0;
   overflow: hidden;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.04);
 }
@@ -449,14 +460,14 @@ img {
   object-fit: cover;
 }
 
+.image-card.small-img,
 .small-card {
   width: 110px;
-  aspect-ratio: 1;
 }
 
+.image-card.medium-img,
 .medium-card {
-  width: 100%;
-  max-width: 90px;
+  width: 420px;
   aspect-ratio: 4 / 3;
 }
 
