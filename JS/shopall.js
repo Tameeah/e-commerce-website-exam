@@ -4,6 +4,9 @@ const categoryTabs = document.querySelectorAll('.cat-tab');
 const sortSelect = document.getElementById('sort-select');
 const searchInput = document.getElementById('search-input');
 const searchToggleBtn = document.getElementById('search-toggle-btn');
+const filterToggleBtn = document.getElementById('filter-toggle-btn');
+const filterDropdownMenu = document.getElementById('filter-dropdown-menu');
+const filterOptions = document.querySelectorAll('.filter-option');
 
 let currentProducts = []; // fetch products for filtering 
 
@@ -81,18 +84,33 @@ categoryTabs.forEach(tab => {
 });
 
 //4. filter
-if (sortSelect) { 
-  sortSelect.addEventListener('change',(e) => {
-    let sortedArray = [...currentProducts];
-    const sortValue = e.target.value;
+if (filterToggleBtn && filterDropdownMenu) {
+  filterToggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    filterDropdownMenu.classList.toggle('active');
+  });
 
-    if(sortValue === 'low-high') {
-      sortedArray.sort((a,b) => (a.price * 18) - (b.price * 18));
-    } else if (sortValue === 'high-low') {
-      sortedArray.sort((a, b) => (b.price * 18) - (a.price * 18));
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.filter-dropdown-container')) {
+      filterDropdownMenu.classList.remove('active');
     }
-    
-    renderProducts(sortedArray);
+  });
+
+  filterOptions.forEach(option => {
+    option.addEventListener('click', (e) => {
+      const sortValue = e.target.getAttribute('data-sort');
+      sortSelect.value = sortValue;
+      filterDropdownMenu.classList.remove('active');
+
+      // Trigger sorting logic
+      let sortedArray = [...currentProducts];
+      if (sortValue === 'low-high') {
+        sortedArray.sort((a, b) => (a.price * 18) - (b.price * 18));
+      } else if (sortValue === 'high-low') {
+        sortedArray.sort((a, b) => (b.price * 18) - (a.price * 18));
+      }
+      renderProducts(sortedArray);
+    });
   });
 }
 

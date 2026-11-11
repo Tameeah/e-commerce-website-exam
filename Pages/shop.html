@@ -46,21 +46,31 @@
     <main class="shop-main">
         <!--Page heading and categorgies-->
         <div class="shop-header-section">
-            <h1 class="page-main-heading">Our Pieces</h1>
+            <div class="shop-header-row">
+                <h1 class="page-main-heading">Our Pieces</h1>
 
-            <div class="shop-controls-bar"></div>
-
-                 <div class="shop-controls-bar">
+                <div class="shop-controls-bar">
                     <button class="cat-tab active" data-category="all">all</button>
                     <button class="cat-tab" data-category="tops">tops</button>
                     <button class="cat-tab" data-category="skirts">skirts</button>
                     <button class="cat-tab" data-category="dresses">dresses</button>
                 </div>
+            </div>
 
-            <!--Filter-->
-                <div class="filter-dropdown-wrap">
-                    <label for="sort-select" class="filter-label">filter</label>
-                    <select id="sort-select" class="sort-select">
+            <div class="shop-filter-row">
+                <div class="filter-dropdown-container">
+                    <button class="filter-toggle-btn" id="filter-toggle-btn" aria-label="Filter">
+                        filter 
+                        <svg class="filter-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+                        </svg>
+                    </button>
+                    <div class="filter-dropdown-menu" id="filter-dropdown-menu">
+                        <div class="filter-option" data-sort="featured">featured</div>
+                        <div class="filter-option" data-sort="low-high">Price: Low to High</div>
+                        <div class="filter-option" data-sort="high-low">Price: High to Low</div>
+                    </div>
+                    <select id="sort-select" style="display: none;">
                         <option value="featured">featured</option>
                         <option value="low-high">Price: Low to High</option>
                         <option value="high-low">Price: High to Low</option>
