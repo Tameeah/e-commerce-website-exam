@@ -178,7 +178,7 @@ img {
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 20px;
+  gap: 40px;
 }
 
 .search-container {
@@ -191,9 +191,9 @@ img {
   width: 0;
   opacity: 0;
   padding: 0px;
-  border: 1px solid var(--color-burgandy);
+  border: 3px solid var(--color-burgandy);
   border-radius: 50px;
-  background-color: var(--color-white);
+  background-color: var(--color-mercury);
   font-size: 0.9rem;
   outline: none;
   transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.2s ease, padding 0.3s ease;
