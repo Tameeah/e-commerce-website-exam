@@ -230,7 +230,7 @@ img {
 
 .about-section-1 {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 48px;
     align-items: flex-start;
 }
@@ -245,6 +245,7 @@ img {
 .sect1-tall-img {
     height: 520px;
     width:auto; 
+    max-width: 480px;
     object-fit: cover;
     border-radius: 0;
 }
@@ -356,7 +357,7 @@ img {
 /* section 3*/ 
 .about-section-3 {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1.1fr 1fr;
     gap: 64px;
     align-items: start;
 }
@@ -371,8 +372,33 @@ img {
 .collage-container {
     display:grid;
     grid-template-columns: 1fr 1fr;
-    gap: 20px;
-    align-items: center;
+    grid-template-rows: auto auto;
+    column-gap:24px; 
+    row-gap: 20px;
+    align-items: start;
+}
+
+.collage-container img:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1 / span 2; 
+    width: 310px;
+    height: 380px;
+}
+
+.collage-container img:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+    width: 160px;
+    height: 180px;
+    justify-self: start;
+}
+
+.collage-container img:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+    width: 180px;
+    height: 100px;
+    justify-self: start;
 }
 
 .collage-img {
@@ -415,8 +441,9 @@ img {
 .about-footer {
     padding: 32px 64px;
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
     border-top: 1px solid #ddd;
     background-color: #cbcbcb;
 }
