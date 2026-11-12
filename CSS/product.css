@@ -230,7 +230,7 @@ img {
 
 .product-detail-grid {
     display: grid;
-    grid-template-columns: 1.2fr 1fr;
+    grid-template-columns: 1.1fr 1.2fr;
     gap: 64px;
     align-items: center;
 }
@@ -241,6 +241,8 @@ img {
     align-items: center;
     justify-content: space-between;
     position: relative;
+    max-width: 500px;
+    margin: 0 auto;
 }
 
 .gallery-main-wrap {
@@ -270,8 +272,9 @@ img {
 }
 
 .gallery-arrow:hover {
-    color: var(--color-burgandy);
-    transform: scale(1.1);
+    color: var(--color-yellow-hover);
+    border-radius: 50%;
+    transform: scale(1.05);
 }
 
 .gallery-dots {
@@ -298,11 +301,12 @@ img {
 .product-info-section {
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
+    text-align: right;
     gap: 20px;
 }
 
 .prod-detail-title {
-    font-family: var(--font-heading);
     font-size: 2.5rem;
     color: var(--color-black);
     line-height: 1.1;
@@ -311,7 +315,7 @@ img {
 .prod-detail-price {
     font-size: 1.4rem;
     font-weight: 600;
-    color: var(--color-burgandy);
+    color: var(--color-black);
 }
 
 .prod-detail-desc {
@@ -327,6 +331,7 @@ img {
     margin-top: 10px;
     display: flex;
     flex-direction: column;
+    align-items: flex-end;
     gap: 8px;
 }
 
@@ -345,8 +350,9 @@ img {
   width: 44px;
   height: 44px;
   border-radius: 50%;
-  border: 1px solid #999;
-  background-color: transparent;
+  border: 1px solid #0D0000;
+  background-color: #E7E7E7;
+  color: var(--color-black);
   font-size: 0.95rem;
   font-weight: 500;
   cursor: pointer;
@@ -354,15 +360,17 @@ img {
 }
 
 .size-btn:hover {
-  border-color: var(--color-burgundy);
+  background-color: var(--color-yellow-hover);
+  color: var(--color-black);
+  border-color: var(--color-black);
 }
 
 /* Size active state */
 
 .size-btn.active {
-  background-color: var(--color-burgundy);
+  background-color: var(--color-burgandy);
   color: var(--color-white);
-  border-color: var(--color-burgundy);
+  border-color: var(--color-black);
 }
 
 /* Add to bag button */
@@ -372,7 +380,7 @@ img {
   width: 100%;
   max-width: 320px;
   padding: 16px 24px;
-  background-color: var(--color-burgundy);
+  background-color: var(--color-burgandy);
   color: var(--color-white);
   border: none;
   border-radius: 50px;
@@ -385,6 +393,7 @@ img {
 
 .add-to-bag-btn:hover {
   background-color: var(--color-yellow-hover);
+  color: var(--color-black);
   transform: translateY(-2px);
 }
 
