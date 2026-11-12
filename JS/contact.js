@@ -41,7 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
             ease: "power2.out"
         });
 
-        gsap.from(".contact-link-item", {
+        gsap.from(".contact-links-item", {
             duration: 0.8,
             x: -30,
             opacitiy: 0,

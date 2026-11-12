@@ -244,10 +244,12 @@ img {
     line-height: 1;
 }
 
-.contact-link-list {
+.contact-links-list {
     display: flex;
     flex-direction: column;
-    gap: 2px;
+    align-items: flex-start;
+    gap: 10px;
+    width: 100%;
 }
 
 .contact-link-item {
@@ -270,6 +272,8 @@ img {
     display:flex;
     align-items: center;
     justify-content: center;
+    width: 24px;
+    flex-shrink: 0;
 }
 
 /* column 2 */
