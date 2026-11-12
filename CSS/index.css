@@ -46,6 +46,19 @@ img {
     display: block;
 }
 
+.hero-bow {
+  width: 180px;
+  height: auto;
+  opacity: 0.85;
+  will-change: transform;
+}
+
+.split-char,
+.title-char {
+  display: inline-block;
+  will-change: transform, opacity, color;
+}
+
 /* Buttons */
 
 .btn {
@@ -56,9 +69,13 @@ img {
     border-radius: var(--border-radius-pill);
     border: none;
     cursor: pointer;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
     text-align: center;
+    transition: color 0.3s ease;
 }
+
 
 .btn:hover {
     transform: translateY(-2px);
@@ -269,11 +286,6 @@ img {
   pointer-events: none;
 }
 
-.floating-bow {
-  width: 180px;
-  height: auto;
-  opacity: 0.85;
-}
 
 /* Featured Pieces Section */
 .featured-section {
@@ -317,26 +329,6 @@ img {
 .products-scroll-grid .product-card {
   min-width: 260px;
   flex: 0 0 auto;
-}
-
-/* Pagination Dot styling */
-.pagination-dots {
-  display:flex; 
-  justify-content: center;
-  gap: 8px;
-  margin-bottom: 24px;
-}
-
-.dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: rgba(255, 255, 255, 0.35);
-  transition: background-color 0.2s ease;
-}
-
-.dot.active {
-  background-color: var(--color-white);
 }
 
 /* API styling of product cards */
@@ -441,13 +433,6 @@ img {
     text-align: right;
 }
 
-.img-text {
-  font-size: 0.78rem;
-  color:#0D0000;
-  line-height: 1.35;
-  max-width: 100px;
-}
-
  .image-card {
   border-radius: 0;
   overflow: hidden;
@@ -469,11 +454,6 @@ img {
 .medium-card {
   width: 420px;
   aspect-ratio: 4 / 3;
-}
-
-.social-text {
-  font-size: 0.85rem;
-  color: #666;
 }
 
 

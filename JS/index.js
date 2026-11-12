@@ -39,10 +39,135 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    //initialize GSAP motion system
+    initGSAPMotion();
+
     if (featuredGrid) {
-        loadFeaturedProducts();
+        loadFeaturedProducts()
     }
 });
+
+//GSAP
+function initGSAPMotion() {
+    if (typeof gsap === 'undefined') return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    //Cursor driven movement
+    const heroSection = document.querySelector('.hero-section');
+    const heroBow = document.querySelector('.hero-bow');
+
+    if (heroSection && heroBow) {
+        const xTo = gsap.quickTo(heroBow, "x", { duration: 0.7, ease: "power3.out" });
+        const yTo = gsap.quickTo(heroBow, "y", { duration: 0.7, ease: "power3.out" });
+        const rotateTo = gsap.quickTo(heroBow, "rotation", { duration: 0.8, ease: "power3.out" });
+
+        heroSection.addEventListener('mousemove', (e) => {
+            const rect = heroSection.getBoundingClientRect();
+            const normX = (e.clientX - rect.left) / rect.width - 0.5;
+            const normY = (e.clientY - rect.top) / rect.height - 0.5;
+
+            xTo(normX * 60);
+            yTo(normY * 50);
+            rotateTo(normX * 16);
+        });
+
+        heroSection.addEventListener('mouseleave', () => {
+            xTo(0);
+            yTo(0);
+            rotateTo(0);
+        });
+
+    }
+
+    //scroll trigger motion
+    const allHeadings = document.querySelectorAll('.hero-title, .section-heading, .intro-heading');
+
+    allHeadings.forEach((heading) => {
+        const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        const textNodes = [];
+        while (node = walker.nextNode()) {
+            textNodes.push(node);
+        }
+
+        textNodes.forEach(textNode => {
+            const fragment = document.createDocumentFragment();
+            const words = textNode.nodeValue.split(/(\s+)/);
+
+            words.forEach(word => {
+                if (/^\s+$/.test(word)) {
+                    fragment.appendChild(document.createTextNode(word));
+                } else {
+                    const wordSpan = document.createElement('span');
+                    wordSpan.style.display = 'inline-block';
+                    wordSpan.style.whiteSpace = 'nowrap';
+                    
+                    [...word].forEach(char => {
+                        const charSpan = document.createElement('span');
+                        charSpan.className = 'split-char';
+                        charSpan.textContent = char;
+                        wordSpan.appendChild(charSpan);
+                    });
+                    fragment.appendChild(wordSpan);
+                }
+            });
+            textNode.parentNode.replaceChild(fragment, textNode);
+        });
+
+        const chars = heading.querySelectorAll('.split-char');
+
+        gsap.from(chars, {
+            y: 45,
+            opacity: 0,
+            rotationX: -45,
+            duration: 1.8,
+            stagger: 0.04,
+            ease: "power3.out",
+            scrollTrigger: {
+                trigger: heading,
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            }
+        });
+    });
+
+    //hover product animations
+    if (featuredGrid) {
+        featuredGrid.addEventListener('mouseenter', (e) => {
+            const card = e.target.closest('.product-card');
+            if (!card) return;
+            const titleChars = card.querySelectorAll('.title-char');
+            if (titleChars.length > 0) {
+                gsap.to(titleChars, {
+                    y: -4,
+                    rotation: 12,
+                    color: "#FFEBA2",
+                    duration: 0.025,
+                    stagger: 0.025,
+                    ease: "power2.out",
+                    overwrite: "auto"
+                });
+            }
+        }, true);
+
+        featuredGrid.addEventListener('mouseleave', (e) => {
+            const card = e.target.closest('.product-card');
+            if (!card) return;
+            const titleChars = card.querySelectorAll('.title-char');
+            if (titleChars.length > 0) {
+                gsap.to(titleChars, {
+                    y: 0,
+                    rotation: 0,
+                    color: "#FFFFFF", 
+                    duration: 0.5,
+                    stagger: 0.025,
+                    ease: "power2.out",
+                    overwrite: "auto"
+                });
+            }
+        }, true);
+    }
+}
 
 //function to fetch and display products
 async function loadFeaturedProducts() {
@@ -77,13 +202,18 @@ async function loadFeaturedProducts() {
             // price formatting 
             const priceInZar = Math.round(item.price * 18);
 
+            const splitTitleHtml = item.title.split(' ').map(word => {
+                const chars = [...word].map(char => `<span class="title-char" style="display:inline-block;">${char}</span>`).join('');
+                return `<span style="display:inline-block; white-space:nowrap; margin-right: 0.25em;">${chars}</span>`;
+            }).join('');
+
             return `
                 <article class="product-card" onclick="window.location.href='product.html?id=${item.id}'" style="cursor: pointer;">
                     <div class="product-image-wrap">
                         <img src="${item.thumbnail}" alt="${item.title}" class="product-image">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">${item.title}</h3>
+                        <h3 class="product-title">${splitTitleHtml}</h3>
                         <p class="product-price">R${priceInZar}</p>
                     </div>
                 </article>
