@@ -120,8 +120,8 @@ function initGSAPMotion() {
             y: 45,
             opacity: 0,
             rotationX: -45,
-            duration: 1.8,
-            stagger: 0.04,
+            duration: 1,
+            stagger: 0.3,
             ease: "power3.out",
             scrollTrigger: {
                 trigger: heading,
@@ -159,15 +159,100 @@ function initGSAPMotion() {
                     y: 0,
                     rotation: 0,
                     color: "#FFFFFF", 
-                    duration: 0.5,
-                    stagger: 0.025,
+                    duration: 1,
+                    stagger: 0.08,
                     ease: "power2.out",
                     overwrite: "auto"
                 });
             }
         }, true);
     }
-}
+
+    //line under SHOP ALL
+    const dropdownWrap = document.getElementById('shop-dropdown-wrap');
+    const navUnderline = document.querySelector('.nav-underline');
+
+    if(dropdownWrap && navUnderline) {
+        dropdownWrap.addEventListener('mouseenter', () => {
+            gsap.to(navUnderline, {
+                scale: 1,
+                duration: 0.4,
+                ease: "power3.out",
+                transformOrigin: "left center"
+            });
+        });
+
+        dropdownWrap.addEventListener('mouseleave', () => {
+            gsap.to(navUnderline, {
+                scaleX: 0,
+                duration: 0.3,
+                ease: "power3.in",
+                transformOrigin: "right center"
+            });
+        });
+    }
+
+    //     //water swipe motion for buttons
+    //     const buttons = document.querySelectorAll('.btn');
+    //     buttons.forEach(btn => {
+    //         btn.style.position = 'relative';
+    //         btn.style.overflow = 'hidden';
+
+    //         let liquid = btn.querySelector('.btn-liquid');
+    //         if (!liquid) {
+    //             liquid = document.createElement('span');
+    //             liquid.className = 'btn-liquid';
+    //             liquid.style.cssText = `
+    //                 position: absolute;
+    //                 top: 0;
+    //                 left: -100%;
+    //                 width: 100%;
+    //                 height: 100%;
+    //                 background-color: var(--color-yellow-hover);
+    //                 z-index: -1;
+    //                 border-radius: inherit;
+    //                 pointer-events: none;
+    //             `;
+    //             btn.prepend(liquid);
+    //         }
+
+    //         btn.addEventListener('mouseenter', () => {
+
+    //             gsap.killTweensOf(liquid);
+    //             gsap.killTweensOf(btn);
+
+    //             gsap.to(liquid, {
+    //                 x: "100%",
+    //                 duration: 0.5,
+    //                 ease: "power2.out"
+    //             });
+    //             gsap.to(btn, {
+    //                 color: "#0D0000",
+    //                 duration: 0.2,
+    //                 delay: 0.1
+    //             })
+    //         });
+
+    //         btn.addEventListener('mouseleave', () => {
+
+    //             gsap.killTweensOf(liquid);
+    //             gsap.killTweensOf(btn);
+
+    //             gsap.to(liquid, {
+    //                 x: "200%",
+    //                 duration: 0.5,
+    //                 ease: "power2.in",
+    //                 onComplete: () => {
+    //                     gsap.set(liquid, { x: "0%" });
+    //                 }
+    //             });
+    //             gsap.to(btn, {
+    //                 color: "",
+    //                 duration: 0.2
+    //             });
+    //         });
+    //     });
+    // }
 
 //function to fetch and display products
 async function loadFeaturedProducts() {
