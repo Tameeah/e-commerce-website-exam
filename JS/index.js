@@ -117,12 +117,11 @@ function initGSAPMotion() {
         const chars = heading.querySelectorAll('.split-char');
 
         gsap.from(chars, {
-            y: 45,
             opacity: 0,
-            rotationX: -45,
-            duration: 1,
-            stagger: 0.3,
-            ease: "power3.out",
+            scale: 0.8,
+            duration: 0.5,
+            stagger: 0.2,
+            ease: "back.out(1.7)",
             scrollTrigger: {
                 trigger: heading,
                 start: "top 85%",
@@ -168,91 +167,97 @@ function initGSAPMotion() {
         }, true);
     }
 
-    //line under SHOP ALL
-    const dropdownWrap = document.getElementById('shop-dropdown-wrap');
-    const navUnderline = document.querySelector('.nav-underline');
+    //line under Navigation links
+    const navItemsWithUnderline = document.querySelectorAll('.shop-link, .nav-link-underline');
 
-    if(dropdownWrap && navUnderline) {
-        dropdownWrap.addEventListener('mouseenter', () => {
+    navItemsWithUnderline.forEach(item => {
+        const navUnderline = item.querySelector('.nav-underline');
+        if(!navUnderline) return;
+
+        item.addEventListener('mouseenter', () => {
             gsap.to(navUnderline, {
-                scale: 1,
-                duration: 0.4,
+                scaleX: 1,
+                duration: 0.5,
                 ease: "power3.out",
                 transformOrigin: "left center"
             });
         });
 
-        dropdownWrap.addEventListener('mouseleave', () => {
+        item.addEventListener('mouseleave', () => {
             gsap.to(navUnderline, {
                 scaleX: 0,
-                duration: 0.3,
+                duration: 0.4,
                 ease: "power3.in",
                 transformOrigin: "right center"
             });
         });
-    }
+    });
 
-    //     //water swipe motion for buttons
-    //     const buttons = document.querySelectorAll('.btn');
-    //     buttons.forEach(btn => {
-    //         btn.style.position = 'relative';
-    //         btn.style.overflow = 'hidden';
+    //wipe motion for buttons
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(btn => {
+        btn.style.position = 'relative';
+        btn.style.overflow = 'hidden';
 
-    //         let liquid = btn.querySelector('.btn-liquid');
-    //         if (!liquid) {
-    //             liquid = document.createElement('span');
-    //             liquid.className = 'btn-liquid';
-    //             liquid.style.cssText = `
-    //                 position: absolute;
-    //                 top: 0;
-    //                 left: -100%;
-    //                 width: 100%;
-    //                 height: 100%;
-    //                 background-color: var(--color-yellow-hover);
-    //                 z-index: -1;
-    //                 border-radius: inherit;
-    //                 pointer-events: none;
-    //             `;
-    //             btn.prepend(liquid);
-    //         }
+        let wipe = btn.querySelector('.btn-wipe');
+        if (!wipe) {
+            wipe = document.createElement('span');
+            wipe.className = 'btn-wipe';
+            wipe.style.cssText = `
+                position: absolute;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: var(--color-yellow-hover);
+                z-index: -1;
+                transform: scaleX(0);
+                transform-origin: left center;
+                border-radius: inherit;
+                pointer-events: none;
+            `;
+            btn.prepend(wipe);
+        }
 
-    //         btn.addEventListener('mouseenter', () => {
+        btn.addEventListener('mouseenter', () => {
 
-    //             gsap.killTweensOf(liquid);
-    //             gsap.killTweensOf(btn);
+            gsap.killTweensOf(wipe);
+            gsap.killTweensOf(btn);
 
-    //             gsap.to(liquid, {
-    //                 x: "100%",
-    //                 duration: 0.5,
-    //                 ease: "power2.out"
-    //             });
-    //             gsap.to(btn, {
-    //                 color: "#0D0000",
-    //                 duration: 0.2,
-    //                 delay: 0.1
-    //             })
-    //         });
+            gsap.to(wipe, {
+                scaleX: 1,
+                duration: 0.45,
+                ease: "power3.out",
+                transformOrigin: "left center"
+            });
+            gsap.to(btn, {
+                color: "#0D0000",
+                duration: 0.25,
+                delay: 0.1
+            })
+        });
 
-    //         btn.addEventListener('mouseleave', () => {
+        btn.addEventListener('mouseleave', () => {
 
-    //             gsap.killTweensOf(liquid);
-    //             gsap.killTweensOf(btn);
+            gsap.killTweensOf(wipe);
+            gsap.killTweensOf(btn);
 
-    //             gsap.to(liquid, {
-    //                 x: "200%",
-    //                 duration: 0.5,
-    //                 ease: "power2.in",
-    //                 onComplete: () => {
-    //                     gsap.set(liquid, { x: "0%" });
-    //                 }
-    //             });
-    //             gsap.to(btn, {
-    //                 color: "",
-    //                 duration: 0.2
-    //             });
-    //         });
-    //     });
-    // }
+            gsap.to(wipe, {
+                scaleX: 0,
+                duration: 0.45,
+                ease: "power3.inOut",
+                transformOrigin: "right center",
+                onComplete: () => {
+                    gsap.set(wipe, { transformOrigin: "left center" });
+                }
+            });
+            gsap.to(btn, {
+                color: "",
+                duration: 0.25
+            });
+        });
+    });
+}
 
 //function to fetch and display products
 async function loadFeaturedProducts() {

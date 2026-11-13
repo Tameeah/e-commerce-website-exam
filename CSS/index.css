@@ -141,7 +141,8 @@ img {
   position: relative;
 }
 
-.shop-link {
+.shop-link,
+.nav-link-underline {
   position: relative;
   display: inline-block;
 }
