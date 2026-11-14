@@ -79,7 +79,7 @@ function initGSAPMotion() {
 
     }
 
-    //scroll trigger motion
+    //scroll trigger motion - pendulum swing effect 
     const allHeadings = document.querySelectorAll('.hero-title, .section-heading, .intro-heading');
 
     allHeadings.forEach((heading) => {
@@ -105,6 +105,7 @@ function initGSAPMotion() {
                     [...word].forEach(char => {
                         const charSpan = document.createElement('span');
                         charSpan.className = 'split-char';
+                        charSpan.style.display = 'inline-block';
                         charSpan.textContent = char;
                         wordSpan.appendChild(charSpan);
                     });
@@ -117,11 +118,12 @@ function initGSAPMotion() {
         const chars = heading.querySelectorAll('.split-char');
 
         gsap.from(chars, {
+            rotation: 90,
+            transformOrigin: "top center",
             opacity: 0,
-            scale: 0.8,
-            duration: 0.5,
-            stagger: 0.2,
-            ease: "back.out(1.7)",
+            duration: 1,
+            stagger: 0.05,
+            ease: "elastic.out(1, 0.5)",
             scrollTrigger: {
                 trigger: heading,
                 start: "top 85%",
@@ -135,14 +137,26 @@ function initGSAPMotion() {
         featuredGrid.addEventListener('mouseenter', (e) => {
             const card = e.target.closest('.product-card');
             if (!card) return;
+
+            const underline = card.querySelector('.product-underline');
             const titleChars = card.querySelectorAll('.title-char');
+
+
+            if (underline) {
+                gsap.killTweensOf(underline);
+                gsap.to(underline, {
+                    scaleX: 1,
+                    duration: 0.5,
+                    ease: "power3.out",
+                    transformOrigin: "left center"
+                });
+            }
+
             if (titleChars.length > 0) {
                 gsap.to(titleChars, {
-                    y: -4,
-                    rotation: 12,
-                    color: "#FFEBA2",
-                    duration: 0.025,
-                    stagger: 0.025,
+                    y: -2,
+                    duration: 0.3,
+                    stagger: 0.015,
                     ease: "power2.out",
                     overwrite: "auto"
                 });
@@ -152,14 +166,25 @@ function initGSAPMotion() {
         featuredGrid.addEventListener('mouseleave', (e) => {
             const card = e.target.closest('.product-card');
             if (!card) return;
+
+            const underline = card.querySelector('.product-underline');
             const titleChars = card.querySelectorAll('.title-char');
+
+            if (underline) {
+                gsap.killTweensOf(underline);
+                gsap.to(underline, {
+                    scaleX: 0,
+                    duration: 0.4,
+                    ease: "power3.in",
+                    transformOrigin: "right center"
+                });
+            }
+
             if (titleChars.length > 0) {
                 gsap.to(titleChars, {
-                    y: 0,
-                    rotation: 0,
                     color: "#FFFFFF", 
-                    duration: 1,
-                    stagger: 0.08,
+                    duration: 0.3,
+                    stagger: 0.01,
                     ease: "power2.out",
                     overwrite: "auto"
                 });
@@ -303,7 +328,10 @@ async function loadFeaturedProducts() {
                         <img src="${item.thumbnail}" alt="${item.title}" class="product-image">
                     </div>
                     <div class="product-info">
-                        <h3 class="product-title">${splitTitleHtml}</h3>
+                        <h3 class="product-title" style="position: relative; display: inline-block;">
+                            ${splitTitleHtml}
+                            <span class ="product-underline"></span>
+                        </h3>
                         <p class="product-price">R${priceInZar}</p>
                     </div>
                 </article>
