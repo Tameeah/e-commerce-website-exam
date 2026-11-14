@@ -121,12 +121,12 @@ function initGSAPMotion() {
             rotation: 90,
             transformOrigin: "top center",
             opacity: 0,
-            duration: 1,
-            stagger: 0.05,
+            duration: 1.6,
+            stagger: 0.08,
             ease: "elastic.out(1, 0.5)",
             scrollTrigger: {
                 trigger: heading,
-                start: "top 85%",
+                start: "top 95%",
                 toggleActions: "play none none reverse"
             }
         });
@@ -290,16 +290,35 @@ function initGSAPMotion() {
 
         gsap.from(".intro-section .item", {
             opacity: 0, 
-            y: 60, 
-            scale: 0.8,
-            rotation: () => gsap.utils.random(-10, 10),
-            stagger: { amount: 0.8, from: "random" },
+            y: 80, 
+            scale: 0.7,
+            rotation: () => gsap.utils.random(-12, 12),
+            duration: 1.8,
+            stagger: { amount: 1.5, from: "random" },
             ease: "back.out(1.4)",
             scrollTrigger: {
                 trigger: ".intro-section",
-                start: "top 85%", // Triggers precisely when the top of the intro section hits 85% down the viewport
+                start: "top 89%", 
                 toggleActions: "play none none reverse",
-                markers: false // Set to true to see the trigger line on screen while testing
+                markers: false 
+            }
+        });
+    }
+
+    //fade-in effect for P tags
+    const introTexts = document.querySelectorAll('.intro-section p');
+    if (introTexts.length > 0) {
+        introTexts.forEach(el => el.classList.add('text'));
+
+        gsap.from(".intro-section .text", {
+            opactiy: 0,
+            y: 40,
+            duration: 1.6,
+            ease: "power2.out",
+            scrollTrigger: {
+                trigger: ".intro-section",
+                start: "top 95%",
+                toggleActions: "play none none reverse"
             }
         });
     }
@@ -361,15 +380,14 @@ async function loadFeaturedProducts() {
         }).join('');
 
         const productCards = featuredGrid.querySelectorAll('.product-card');
-        productCards.forEach((card, index) => {
+        productCards.forEach((card) => {
             gsap.from(card, {
                 opacity: 0,
-                y: 40,
-                duration: 2,
-                delay: index * 0.5,
+                y: 30,
+                duration: 1.2,
                 scrollTrigger: {
                     trigger: card,
-                    start: "top 85%",
+                    start: "top 95%",
                     toggleActions: "play none none reverse"
                 }
             });
