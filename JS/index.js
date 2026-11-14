@@ -282,6 +282,28 @@ function initGSAPMotion() {
             });
         });
     });
+
+    // Cascade animation for images in intro section
+    const introImages = document.querySelectorAll('.intro-section .image-card'); 
+    if (introImages.length > 0) {
+        introImages.forEach(img => img.classList.add('item'));
+
+        gsap.from(".intro-section .item", {
+            opacity: 0, 
+            y: 60, 
+            scale: 0.8,
+            rotation: () => gsap.utils.random(-10, 10),
+            stagger: { amount: 0.8, from: "random" },
+            ease: "back.out(1.4)",
+            scrollTrigger: {
+                trigger: ".intro-section",
+                start: "top 85%", // Triggers precisely when the top of the intro section hits 85% down the viewport
+                toggleActions: "play none none reverse",
+                markers: false // Set to true to see the trigger line on screen while testing
+            }
+        });
+    }
+ 
 }
 
 //function to fetch and display products
@@ -337,6 +359,21 @@ async function loadFeaturedProducts() {
                 </article>
             `;
         }).join('');
+
+        const productCards = featuredGrid.querySelectorAll('.product-card');
+        productCards.forEach((card, index) => {
+            gsap.from(card, {
+                opacity: 0,
+                y: 40,
+                duration: 2,
+                delay: index * 0.5,
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse"
+                }
+            });
+        });
 
         //pagination dots based on scroll position
         setupScrollPagination();
