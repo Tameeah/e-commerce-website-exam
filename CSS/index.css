@@ -112,6 +112,28 @@ img {
   color: var(--color-black);
 }
 
+/* curatin styling */
+
+.curtain {
+  position: fixed;
+  top: 0;
+  width: 50vw;
+  height: 100vh;
+  background-color: var(--color-burgandy, #70020F);
+  z-index: 9999;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.curtain-left {
+  left: 0;
+}
+
+.curtain-right {
+  right: 0;
+}
+
+
 /* Navigation Bar */
 .navbar {
     display: flex;
