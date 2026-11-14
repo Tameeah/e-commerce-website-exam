@@ -121,12 +121,12 @@ function initGSAPMotion() {
             rotation: 90,
             transformOrigin: "top center",
             opacity: 0,
-            duration: 1.6,
-            stagger: 0.08,
+            duration: 1.8,
+            stagger: 0.05,
             ease: "elastic.out(1, 0.5)",
             scrollTrigger: {
                 trigger: heading,
-                start: "top 95%",
+                start: "top 75%",
                 toggleActions: "play none none reverse"
             }
         });
@@ -288,38 +288,39 @@ function initGSAPMotion() {
     if (introImages.length > 0) {
         introImages.forEach(img => img.classList.add('item'));
 
-        gsap.from(".intro-section .item", {
-            opacity: 0, 
-            y: 80, 
-            scale: 0.7,
-            rotation: () => gsap.utils.random(-12, 12),
-            duration: 1.8,
-            stagger: { amount: 1.5, from: "random" },
-            ease: "back.out(1.4)",
-            scrollTrigger: {
-                trigger: ".intro-section",
-                start: "top 89%", 
-                toggleActions: "play none none reverse",
-                markers: false 
-            }
+        introImages.forEach((img, index) => {
+            gsap.from(img, {
+                opacity: 0, 
+                y: 80, 
+                scale: 0.7,
+                rotation: gsap.utils.random(-15, 15),
+                duration: 1.5,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: img,
+                    start: "top 85%",
+                    toggleActions: "play none none reverse",
+                    markers: false
+                }
+            });
         });
     }
 
     //fade-in effect for P tags
     const introTexts = document.querySelectorAll('.intro-section p');
     if (introTexts.length > 0) {
-        introTexts.forEach(el => el.classList.add('text'));
-
-        gsap.from(".intro-section .text", {
-            opactiy: 0,
-            y: 40,
-            duration: 1.6,
-            ease: "power2.out",
-            scrollTrigger: {
-                trigger: ".intro-section",
-                start: "top 95%",
-                toggleActions: "play none none reverse"
-            }
+        introTexts.forEach(el => {
+            gsap.from(el, {
+                opacity: 0,
+                y: 40,
+                duration: 1.4,
+                ease: "power2.out",
+                scrollTrigger: {
+                    trigger: el,
+                    start: "top 88%",
+                    toggleActions: "play none none reverse"
+                }
+            });
         });
     }
  
