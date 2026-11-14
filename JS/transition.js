@@ -28,3 +28,40 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 });
+
+//cursor dashed line
+document.addEventListener('DOMContentLoaded', () => {
+    let lastX = 0;
+    let lastY = 0;
+    const distanceThreshold = 30;
+
+    window.addEventListener('mousemove', (e) => {
+        const dx = e.clientX - lastX;
+        const dy = e.clientY - lastY;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+
+        if(distance > distanceThreshold) {
+
+            const angle = Math.atan2(dy, dx) * (180 / Math.PI);
+            lastX = e.clientX;
+            lastY = e.clientY;
+
+            const dash = document.createElement('div');
+            dash.className = 'cursor-dash';
+            dash.style.left = `${e.clientX}px`;
+            dash.style.top = `${e.clientY}px`;
+            dash.style.transform = `translate(-50%, -50%) rotate(${angle}deg)`;
+            document.body.appendChild(dash);
+
+            gsap.to(dash, {
+                scale: 0.5,
+                opacity: 0,
+                duration: 0.6,
+                ease: "power1.out",
+                onComplete: () => {
+                    dash.remove();
+                }
+            });
+        }
+    });
+});

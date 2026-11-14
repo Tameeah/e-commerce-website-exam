@@ -134,6 +134,22 @@ img {
 }
 
 
+/* cursor dash line */
+.cursor-dash {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 12px;
+  height: 4px;
+  background: var(--color-yellow-hover, #FFEBA2); 
+  border-radius: 2px;
+  pointer-events: none;
+  z-index: 9998; /* Sits just beneath your curtains (9999) */
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+}
+
+
 /* Navigation Bar */
 .navbar {
     display: flex;
