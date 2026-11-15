@@ -315,7 +315,7 @@ img {
 .cart-drawer {
   position: fixed;
   top: 0;
-  right: 0;
+  right: -100%;
   width: 38vw;
   min-width: 360px;
   max-width: 480px;
@@ -327,15 +327,10 @@ img {
   flex-direction: column;
   box-shadow: -10px 0 30px rgba(0, 0, 0, 0.1);
   transition: right 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-
-  transform: translateX(100%) scaleY(0.85);
-  transform-origin: right center;
-  visibility: hidden;
-  will-change: transform, visibility;
 }
 
 .cart-drawer.active {
-  visibility: visible;
+  right: 0;
 }
 
 .cart-header {

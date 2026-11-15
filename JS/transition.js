@@ -105,7 +105,7 @@ function removeFromCart(index) {
     saveCart(cart);
 }
 
-//open cart controls + GSAP 
+//open cart controls
 function openCart() {
     const drawer = document.getElementById('cart-drawer');
     const overlay = document.getElementById('cart-overlay');
@@ -113,54 +113,19 @@ function openCart() {
     if(!drawer || !overlay) return;
 
     overlay.classList.add('active');
-    drawer.classList.add('active');
-
-    gsap.killTweensOf(drawer);
-
-    gsap.fromTo(drawer, 
-        {
-            xPercent: 100,
-            scaleY: 0.8,
-            skewY: 6,
-            borderRadius: "40px 0 0 40px"
-        },
-        {
-            xPercent: 0, 
-            scaleY: 1, 
-            skewY: 0,
-            borderRadius: "0px 0 0 0px",
-            duration: 1.2, 
-            ease: "power3.out"
-        }
-    );
-
-    gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3});
+    drawer.classList.add('active');    
 }
 
 
-// close cart controls + GSAP
+// close cart controls 
 function closeCart() {
     const drawer = document.getElementById('cart-drawer');
     const overlay = document.getElementById('cart-overlay');
 
     if(!drawer || !overlay) return;
 
-    gsap.to(drawer, {
-        xPercent: 100,
-        scaleY: 0.75,
-        skewY: -10,
-        borderRadius: "60px 0 0 60px",
-        duration: 1.0,
-        ease: "power3.in",
-        onComplete: () => {
-            drawer.classList.remove('active');
-            overlay.classList.remove('active');
-            // Reset inline styles so future opens work cleanly
-            gsap.set(drawer, { clearProps: "all" });
-        }
-    });
-
-    gsap.to(overlay, { opacity: 0, duration: 0.3});
+    drawer.classList.remove('active');
+    overlay.classList.remove('active');
 }
 
 //render cart content and icon update
