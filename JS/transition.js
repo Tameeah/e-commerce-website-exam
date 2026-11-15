@@ -65,3 +65,195 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+
+// Side Cart/ Bag 
+
+//get items - initialize empty state
+function getCart() {
+    try {
+        return JSON.parse(localStorage.getItem('thats_t_cart')) || [];
+    } catch (e) {
+        return[];
+    }
+}
+
+function saveCart(cart) {
+    localStorage.setItem('thats_t_cart', JSON.stringify(cart));
+    updateCartUI();
+}
+
+// add item to cart 
+function addToCart(newItem) {
+    const cart = getCart();
+    const existingIndex = cart.findIndex(item => item.id === newItem.id && item.size === newItem.size);
+
+    if(existingIndex > -1) {
+        cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
+    } else {
+        newItem.quantity = 1;
+        cart.push(newItem);
+    }
+
+    saveCart(cart);
+    openCart();
+}
+
+//remove item from cart
+function removeFromCart(index) {
+    const cart = getCart();
+    cart.splice(index, 1);
+    saveCart(cart);
+}
+
+//open cart controls + GSAP 
+function openCart() {
+    const drawer = document.getElementById('cart-drawer');
+    const overlay = document.getElementById('cart-overlay');
+
+    if(!drawer || !overlay) return;
+
+    overlay.classList.add('active');
+    drawer.classList.add('active');
+
+    gsap.killTweensOf(drawer);
+
+    gsap.fromTo(drawer, 
+        {
+            xPercent: 100,
+            scaleY: 0.8,
+            skewY: 6,
+            borderRadius: "40px 0 0 40px"
+        },
+        {
+            xPercent: 0, 
+            scaleY: 1, 
+            skewY: 0,
+            borderRadius: "0px 0 0 0px",
+            duration: 1.2, 
+            ease: "power3.out"
+        }
+    );
+
+    gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3});
+}
+
+
+// close cart controls + GSAP
+function closeCart() {
+    const drawer = document.getElementById('cart-drawer');
+    const overlay = document.getElementById('cart-overlay');
+
+    if(!drawer || !overlay) return;
+
+    gsap.to(drawer, {
+        xPercent: 100,
+        scaleY: 0.75,
+        skewY: -10,
+        borderRadius: "60px 0 0 60px",
+        duration: 1.0,
+        ease: "power3.in",
+        onComplete: () => {
+            drawer.classList.remove('active');
+            overlay.classList.remove('active');
+            // Reset inline styles so future opens work cleanly
+            gsap.set(drawer, { clearProps: "all" });
+        }
+    });
+
+    gsap.to(overlay, { opacity: 0, duration: 0.3});
+}
+
+//render cart content and icon update
+function updateCartUI() {
+    const cart = getCart();
+    const cartBody = document.getElementById('cart-body');
+    const cartFooter = document.getElementById('cart-footer');
+    const badge = document.getElementById('bag-badge');
+
+    const totalCount = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+    if (badge) {
+        badge.textContent = totalCount;
+        if (totalCount > 0) {
+            badge.classList.add('visible');
+        } else {
+            badge.classList.remove('visible');
+        }
+    }
+
+    if (!cartBody || !cartFooter) return;
+
+    // 2. Render Body (Empty vs Populated)
+    if (cart.length === 0) {
+        cartBody.innerHTML = `
+            <div class="cart-empty-state">
+                <p>girl it's empty!<br>let's add some pieces</p>
+            </div>
+        `;
+        // Move the shop all button into the footer so it's pinned at the bottom
+        cartFooter.style.display = 'block';
+        cartFooter.innerHTML = `
+            <a href="shop.html" class="cart-shop-btn">shop all</a>
+        `;
+    } else {
+        cartFooter.style.display = 'block';
+        
+        // Calculate subtotal in ZAR (R)
+        const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
+
+        cartBody.innerHTML = `
+            <div class="cart-item-list">
+                ${cart.map((item, index) => `
+                    <div class="cart-item">
+                        <div class="cart-item-img-wrap">
+                            <img src="${item.image}" alt="${item.title}" />
+                        </div>
+                        <div class="cart-item-details">
+                            <h4 class="cart-item-title">${item.title}</h4>
+                            <p class="cart-item-price">R${item.price}</p>
+                            <p class="cart-item-size">size: ${item.size} ${item.quantity > 1 ? `(x${item.quantity})` : ''}</p>
+                        </div>
+                        <button class="cart-item-remove" onclick="removeFromCart(${index})" aria-label="Remove item">
+                            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="3 6 5 6 21 6"></polyline>
+                                <path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path>
+                            </svg>
+                        </button>
+                    </div>
+                `).join('')}
+            </div>
+        `;
+
+        cartFooter.innerHTML = `
+            <div class="cart-subtotal-row">
+                <span>Subtotal:</span>
+                <span>R${subtotal}</span>
+            </div>
+            <button class="cart-checkout-btn" onclick="alert('Proceeding to checkout...')">checkout</button>
+        `;
+    }
+}
+
+// Event Listeners on Page Load
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartUI();
+
+    // Toggle Cart Drawer on Bag Icon Click
+    const bagToggleBtn = document.getElementById('bag-toggle-btn');
+    const closeBtn = document.getElementById('cart-close-btn');
+    const overlay = document.getElementById('cart-overlay');
+
+    if (bagToggleBtn) {
+        bagToggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openCart();
+        });
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeCart);
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', closeCart);
+    }
+});

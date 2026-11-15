@@ -131,10 +131,30 @@ function initSizeSelector() {
     });
   });
 
-  // Add to Bag Button Interaction
+  // Add to Bag Button Interaction & Cart icon
   const bagBtn = document.getElementById('add-to-bag-btn');
   if (bagBtn) {
     bagBtn.addEventListener('click', () => {
+      const productTitle = document.querySelector('.prod-detail-title')?.textContent || 'Piece';
+      const priceText = document.querySelector('.prod-detail-price')?.textContent || 'R0';
+      const priceNumeric = parseInt(priceText.replace(/[^0-9]/g, '')) || 250;
+      const activeImgSrc = document.getElementById('active-gallery-img')?.src || '';
+
+      // Construct the cart item object
+      const cartItem = {
+        id: productId,
+        title: productTitle,
+        price: priceNumeric,
+        size: selectedSize,
+        image: activeImgSrc
+      };
+
+      // Call global addToCart function (defined in transition.js)
+      if (typeof addToCart === 'function') {
+        addToCart(cartItem);
+      }
+
+      // Button feedback animation
       bagBtn.textContent = `added (${selectedSize}) ✓`;
       bagBtn.style.backgroundColor = '#333';
       setTimeout(() => {
