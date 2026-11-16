@@ -41,6 +41,7 @@ async function fetchProducts(category = 'all') {
 
 //2. Render the producs to the grid
 function renderProducts(productsToRender) {
+  if(!productsGrid) return;
   if(productsToRender.length === 0){
     productsGrid.innerHTML = `<p class="empty-msg">No pieces found matching your criteria.</p>`;
     return;
@@ -49,13 +50,18 @@ function renderProducts(productsToRender) {
   productsGrid.innerHTML = productsToRender.map(item => {
     const priceInZar = Math.round(item.price * 18);
 
+    const titleCharsHtml = [...item.title].map(char => `<span class="title-char">${char === ' ' ? '&nbsp;' : char}</span>`).join('');
+
     return `
       <article class="shop-product-card" onclick="window.location.href='product.html?id=${item.id}'" style="cursor: pointer;">
         <div class="shop-img-wrap">
           <img src="${item.thumbnail}" alt="${item.title}" loading="lazy" />
         </div>
         <div class="shop-card-info">
-          <h3 class="shop-item-title">${item.title}</h3>
+        <div class="shop-title-wrap">
+            <h3 class="shop-item-title">${titleCharsHtml}</h3>
+            <span class="product-underline"></span>
+          </div>
           <p class="shop-item-price">R${priceInZar}</p>
         </div>
       </article>
@@ -153,7 +159,159 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  //initialize GSAP motion system
+    initGSAPMotion();
 });
+
+//GSAP 
+function initGSAPMotion() {
+  if (typeof gsap === 'undefined') return;
+  if (typeof ScrollTrigger !== 'undefined') {
+    gsap.registerPlugin(ScrollTrigger);
+  }
+
+  //scroll trigger motion - pendulum swing effect 
+    const allHeadings = document.querySelectorAll('.page-main-heading, .section-heading');
+
+    allHeadings.forEach((heading) => {
+      if (heading.dataset.animated) return;
+      heading.dataset.animated = "true";
+
+        const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT, null, false);
+        let node;
+        const textNodes = [];
+        while (node = walker.nextNode()) {
+            textNodes.push(node);
+        }
+
+        textNodes.forEach(textNode => {
+            const fragment = document.createDocumentFragment();
+            const words = textNode.nodeValue.split(/(\s+)/);
+
+            words.forEach(word => {
+                if (/^\s+$/.test(word)) {
+                    fragment.appendChild(document.createTextNode(word));
+                } else {
+                    const wordSpan = document.createElement('span');
+                    wordSpan.style.display = 'inline-block';
+                    wordSpan.style.whiteSpace = 'nowrap';
+                    
+                    [...word].forEach(char => {
+                        const charSpan = document.createElement('span');
+                        charSpan.className = 'split-char';
+                        charSpan.style.display = 'inline-block';
+                        charSpan.textContent = char;
+                        wordSpan.appendChild(charSpan);
+                    });
+                    fragment.appendChild(wordSpan);
+                }
+            });
+            textNode.parentNode.replaceChild(fragment, textNode);
+        });
+
+        const chars = heading.querySelectorAll('.split-char');
+
+        gsap.from(chars, {
+            rotation: 90,
+            transformOrigin: "top center",
+            opacity: 0,
+            duration: 1.8,
+            stagger: 0.05,
+            ease: "elastic.out(1, 0.5)",
+            scrollTrigger: {
+                trigger: heading,
+                start: "top 85%",
+                toggleActions: "play none none reverse"
+            }
+        });
+    });
+
+    //hover product animations
+    if (productsGrid) {
+        productsGrid.addEventListener('mouseenter', (e) => {
+            const card = e.target.closest('.shop-product-card');
+            if (!card) return;
+
+            const underline = card.querySelector('.product-underline');
+            const titleChars = card.querySelectorAll('.title-char');
+
+            if (underline) {
+                gsap.killTweensOf(underline);
+                gsap.to(underline, {
+                    scaleX: 1,
+                    duration: 0.5,
+                    ease: "power3.out",
+                    transformOrigin: "left center"
+                });
+            }
+
+            if (titleChars.length > 0) {
+                gsap.to(titleChars, {
+                    y: -2,
+                    duration: 0.3,
+                    stagger: 0.015,
+                    ease: "power2.out",
+                    overwrite: "auto"
+                });
+            }
+        }, true);
+
+        productsGrid.addEventListener('mouseleave', (e) => {
+            const card = e.target.closest('.shop-product-card');
+            if (!card) return;
+
+            const underline = card.querySelector('.product-underline');
+            const titleChars = card.querySelectorAll('.title-char');
+
+            if (underline) {
+                gsap.killTweensOf(underline);
+                gsap.to(underline, {
+                    scaleX: 0,
+                    duration: 0.4,
+                    ease: "power3.in",
+                    transformOrigin: "right center"
+                });
+            }
+
+            if (titleChars.length > 0) {
+                gsap.to(titleChars, {
+                   y: 0, 
+                    duration: 0.3,
+                    stagger: 0.01,
+                    ease: "power2.out",
+                    overwrite: "auto"
+                });
+            }
+        }, true);
+    }
+
+    //line under Navigation links
+    const navItemsWithUnderline = document.querySelectorAll('.shop-link, .nav-link-underline');
+
+    navItemsWithUnderline.forEach(item => {
+        const navUnderline = item.querySelector('.nav-underline');
+        if(!navUnderline) return;
+
+        item.addEventListener('mouseenter', () => {
+            gsap.to(navUnderline, {
+                scaleX: 1,
+                duration: 0.5,
+                ease: "power3.out",
+                transformOrigin: "left center"
+            });
+        });
+
+        item.addEventListener('mouseleave', () => {
+            gsap.to(navUnderline, {
+                scaleX: 0,
+                duration: 0.4,
+                ease: "power3.in",
+                transformOrigin: "right center"
+            });
+        });
+    });
+}
 
 
 
