@@ -6,10 +6,9 @@
     <title>Product Details | That's T</title>
     <link rel="stylesheet" href="../CSS/product.css" />
      
-    <!-- GSAP scripts here --> 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
-
+    <!-- GSAP scripts --> 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js" defer></script>
 </head>
 <body>
 
@@ -20,10 +19,10 @@
     <!-- Cursor dash line Element -->
     <div class="cursor-dash"></div> 
 
-     <!-- Navigation Bar -->
+    <!-- Navigation Bar -->
     <header class="navbar">
         <a href="index.html" class="logo-container">
-            <img src="../Assets/images/Logo.png" alt="Logo" alt="Brand Logo" class="brand-logo" />
+            <img src="../Assets/images/Logo.png" alt="Brand Logo" class="brand-logo" />
         </a>
 
         <nav class="nav-links">
@@ -57,21 +56,33 @@
             </button>
         </div>  
     </header>
-    <main> 
 
-    <!--Product details main section-->
+    <!-- Product details main section -->
     <main class="product-detail-main">
         <div class="product-detail-container" id="product-detail-container">
-            <!--JS dynamically generated content-->
+            <!-- JS dynamically generated content -->
             <div class="loading-state">Loading piece details...</div>
         </div>
     </main>
 
-    
+    <!-- Side Cart Drawer -->
+    <div class="cart-overlay" id="cart-overlay"></div>
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <button class="cart-close-btn" id="cart-close-btn" aria-label="Close cart">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <h2 class="cart-title">Your bag</h2>
+        </div>
+        <div class="cart-body" id="cart-body"></div>
+        <div class="cart-footer" id="cart-footer"></div>
+    </div>
 
-    <!--transition JS global-->
+    <!-- Transition JS global -->
     <script src="../JS/transition.js"></script>
     <script src="../JS/product.js"></script>
-
 </body>
 </html>

@@ -66,7 +66,7 @@ function renderProductDetails(product) {
         </div>
 
         <!-- Add to Bag Button -->
-        <button class="add-to-bag-btn" id="add-to-bag-btn">add to bag</button>
+        <button class="btn add-to-bag-btn" id="add-to-bag-btn">add to bag</button>
       </div>
     </div>
   `;
@@ -76,6 +76,9 @@ function renderProductDetails(product) {
 
   // Initialize Size Selector Logic
   initSizeSelector();
+
+  //button- wipe 
+  initButtonWipe();
 }
 
 // 4. Image gallery slider 
@@ -165,8 +168,115 @@ function initSizeSelector() {
   }
 }
 
+//GSAP 
+function initGSAPMotion() {
+    if (typeof gsap === 'undefined') return;
+
+    //line under Navigation links
+    const navItemsWithUnderline = document.querySelectorAll('.shop-link, .nav-link-underline');
+
+    navItemsWithUnderline.forEach(item => {
+        const navUnderline = item.querySelector('.nav-underline');
+        if(!navUnderline) return;
+
+        item.addEventListener('mouseenter', () => {
+            gsap.to(navUnderline, {
+                scaleX: 1,
+                duration: 0.5,
+                ease: "power3.out",
+                transformOrigin: "left center"
+            });
+        });
+
+        item.addEventListener('mouseleave', () => {
+            gsap.to(navUnderline, {
+                scaleX: 0,
+                duration: 0.4,
+                ease: "power3.in",
+                transformOrigin: "right center"
+            });
+        });
+    });
+
+    initButtonWipe();
+  }
+
+//wipe motion for buttons
+function initButtonWipe() {
+  if (typeof gsap === 'undefined') return;
+
+
+  const buttons = document.querySelectorAll('.btn');
+  buttons.forEach(btn => {
+    if (btn.dataset.wiped) return;
+    btn.dataset.wiped = "true";
+    btn.style.position = 'relative';
+    btn.style.overflow = 'hidden';
+
+    let wipe = btn.querySelector('.btn-wipe');
+    if (!wipe) {
+        wipe = document.createElement('span');
+        wipe.className = 'btn-wipe';
+        wipe.style.cssText = `
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background-color: var(--color-yellow-hover);
+          z-index: -1;
+          transform: scaleX(0);
+          transform-origin: left center;
+          border-radius: inherit;
+          pointer-events: none;
+        `;
+        btn.prepend(wipe);
+        }
+
+        btn.addEventListener('mouseenter', () => {
+            gsap.killTweensOf(wipe);
+            gsap.killTweensOf(btn);
+
+            gsap.to(wipe, {
+                scaleX: 1,
+                duration: 0.45,
+                ease: "power3.out",
+                transformOrigin: "left center"
+            });
+            gsap.to(btn, {
+                color: "#0D0000",
+                duration: 0.25,
+                delay: 0.1
+            })
+        });
+
+        btn.addEventListener('mouseleave', () => {
+
+            gsap.killTweensOf(wipe);
+            gsap.killTweensOf(btn);
+
+            gsap.to(wipe, {
+                scaleX: 0,
+                duration: 0.45,
+                ease: "power3.inOut",
+                transformOrigin: "right center",
+                onComplete: () => {
+                    gsap.set(wipe, { transformOrigin: "left center" });
+                }
+            });
+            gsap.to(btn, {
+                color: "",
+                duration: 0.25
+            });
+        });
+    });
+  }
+
 // Initial Call on Load
-document.addEventListener('DOMContentLoaded', fetchProductDetails);
+document.addEventListener('DOMContentLoaded', () => {
+  fetchProductDetails();
+  initGSAPMotion();
+});
 
 
 
