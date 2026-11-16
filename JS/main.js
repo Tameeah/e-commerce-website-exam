@@ -69,11 +69,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
 
         const headings = document.querySelectorAll('.section-heading, .page-main-heading, .reveal-heading');
-        
         headings.forEach((heading) => {
             if (heading.dataset.animated) return;
             heading.dataset.animated = "true";
-            heading.style.opacity = "1";
 
             const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT, null, false);
             let node;
@@ -107,17 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const chars = heading.querySelectorAll('.split-char');
             gsap.from(chars, {
-                y: 35,
-                rotation: 45,
-                transformOrigin: "bottom center",
+                rotation: 90,
+                transformOrigin: "top center",
                 opacity: 0,
-                duration: 0.8,
-                stagger: 0.025,
-                ease: "power3.out",
-                delay: 0.6,
+                duration: 1.8,
+                stagger: 0.05,
+                ease: "power2.out",
                 scrollTrigger: {
                     trigger: heading,
-                    start: "top 95%",
+                    start: "top 85%",
                     toggleActions: "play none none reverse"
                 }
             });
