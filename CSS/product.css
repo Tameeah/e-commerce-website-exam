@@ -16,7 +16,7 @@
     --font-body: 'Inter', system-ui, -apple-system, sans-serif;
 
     --border-radius-pill: 50px;
-    --border-radius-card: 20px;
+    --border-radius-card: 36px;
     --container-max-width: 1280px;
 
 
@@ -46,6 +46,19 @@ img {
     display: block;
 }
 
+.hero-bow {
+  width: 180px;
+  height: auto;
+  opacity: 0.85;
+  will-change: transform;
+}
+
+.split-char,
+.title-char {
+  display: inline-block;
+  will-change: transform, opacity, color;
+}
+
 /* Buttons */
 
 .btn {
@@ -56,30 +69,47 @@ img {
     border-radius: var(--border-radius-pill);
     border: none;
     cursor: pointer;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
     text-align: center;
+    transition: color 0.3s ease;
 }
 
-.btn:hover {
-    transform: translateY(-2px);
+.btn ::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background-color: var(--color-yellow-hover);
+  transition: transform 0.4s cubic-bezier(0.65, 0, 0.35, 1);
+  z-index: -1;
+}
+
+.btn:hover::before {
+    transform: translateX(100%);
 }
 
 .primary-btn {
-    background-color: var(--color-burgandy);
+  background-color: var(--color-burgandy);
   color: var(--color-white);
 }
 
 .primary-btn:hover {
   background-color: var(--color-yellow-hover);
+  color: var(--color-black);
 }
 
 .secondary-btn {
-  background-color: var(--color-burgandy);
-  color: var(--color-white);
+  background-color: var(--color-mercury);
+  color: var(--color-black);
 }
 
 .secondary-btn:hover {
   background-color: var(--color-yellow-hover);
+  color: var(--color-black);
 }
 
 /* curatin styling */
@@ -103,6 +133,7 @@ img {
   right: 0;
 }
 
+
 /* cursor dash line */
 .cursor-dash {
   position: fixed;
@@ -117,6 +148,7 @@ img {
   transform: translate(-50%, -50%);
   will-change: transform, opacity;
 }
+
 
 /* Navigation Bar */
 .navbar {
@@ -139,12 +171,30 @@ img {
 
 .nav-links {
   display: flex;
-  gap: 56px;
+  gap: 100px;
   align-items: center;
 }
 
 .dropdown-wrap {
   position: relative;
+}
+
+.shop-link,
+.nav-link-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.nav-underline {
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-burgandy);
+  transform: scaleX(0);
+  transform-origin: left center;
+  will-change: transform;
 }
 
 .dropdown-menu {
@@ -155,10 +205,8 @@ img {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  background-color: rgba(248, 246, 242, 0.95);
-  backdrop-filter: blur(6px);
+  background-color: transparent;
   padding: 16px 24px;
-  border-radius: 8px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
   opacity: 0;
   visibility: hidden;
