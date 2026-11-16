@@ -1,127 +1,35 @@
-//Global JS file for same functions across all pages
-
-
 // transition.js - Handles page-load opening and click-to-exit curtain animations
 document.addEventListener('DOMContentLoaded', () => {
-    // 1. PAGE LOAD CURTAINS
+    // 1. PAGE LOAD: Open the curtains revealing the page
     const loadTl = gsap.timeline();
     loadTl.to(".curtain-left", { xPercent: -100, duration: 1, ease: "power3.inOut" }, 0)
-         .to(".curtain-right", { xPercent: 100, duration: 1, ease: "power3.inOut" }, 0)
-         .from(".content", { scale: 0.5, opacity: 0, ease: "back.out(1.7)" }, 0.5);
+          .to(".curtain-right", { xPercent: 100, duration: 1, ease: "power3.inOut" }, 0)
+          .from(".content", { scale: 0.5, opacity: 0, ease: "back.out(1.7)" }, 0.5);
 
-    // 2. PAGE NAVIGATION CURTAINS
+    // 2. PAGE NAVIGATION: Close curtains when clicking internal links
     const internalLinks = document.querySelectorAll('a[href]:not([target="_blank"]):not([href^="#"])');
+
     internalLinks.forEach(link => {
         link.addEventListener('click', (e) => {
             const destination = link.getAttribute('href');
+            
             if (!destination || destination.startsWith('#') || destination.startsWith('javascript')) return;
 
             e.preventDefault();
+
             const exitTl = gsap.timeline({
-                onComplete: () => { window.location.href = destination; }
+                onComplete: () => {
+                    window.location.href = destination;
+                }
             });
+
             exitTl.to(".curtain-left", { xPercent: 0, duration: 0.8, ease: "power3.inOut" }, 0)
                   .to(".curtain-right", { xPercent: 0, duration: 0.8, ease: "power3.inOut" }, 0);
         });
     });
-
-    // 3. GLOBAL SEARCH BAR TOGGLE
-    const searchToggleBtn = document.getElementById('search-toggle-btn');
-    const searchInput = document.getElementById('search-input') || document.getElementById('global-search-input');
-
-    if (searchToggleBtn && searchInput) {
-        searchToggleBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            searchInput.classList.toggle('active');
-            if (searchInput.classList.contains('active')) {
-                searchInput.focus();
-            } else {
-                searchInput.value = '';
-            }
-        });
-
-        document.addEventListener('click', (e) => {
-            if (!e.target.closest('.search-container')) {
-                searchInput.classList.remove('active');
-            }
-        });
-    }
-
-    // 4. INITIALIZE CART & ATTACH LISTENERS
-    updateCartUI();
-    const bagToggleBtn = document.getElementById('bag-toggle-btn');
-    const closeBtn = document.getElementById('cart-close-btn');
-    const overlay = document.getElementById('cart-overlay');
-
-    if (bagToggleBtn) {
-        bagToggleBtn.addEventListener('click', (e) => {
-            e.preventDefault();
-            openCart();
-        });
-    }
-    if (closeBtn) closeBtn.addEventListener('click', closeCart);
-    if (overlay) overlay.addEventListener('click', closeCart);
-
-    // 5. GLOBAL GSAP HEADING SCROLL-TRIGGER ANIMATIONS
-    if (typeof gsap !== 'undefined') {
-        if (typeof ScrollTrigger !== 'undefined') {
-            gsap.registerPlugin(ScrollTrigger);
-        }
-
-        const headings = document.querySelectorAll('.section-heading, .page-main-heading, .reveal-heading');
-        headings.forEach((heading) => {
-            if (heading.dataset.animated) return;
-            heading.dataset.animated = "true";
-
-            const walker = document.createTreeWalker(heading, NodeFilter.SHOW_TEXT, null, false);
-            let node;
-            const textNodes = [];
-            while (node = walker.nextNode()) textNodes.push(node);
-
-            textNodes.forEach(textNode => {
-                const fragment = document.createDocumentFragment();
-                const words = textNode.nodeValue.split(/(\s+)/);
-
-                words.forEach(word => {
-                    if (/^\s+$/.test(word)) {
-                        fragment.appendChild(document.createTextNode(word));
-                    } else {
-                        const wordSpan = document.createElement('span');
-                        wordSpan.style.display = 'inline-block';
-                        wordSpan.style.whiteSpace = 'nowrap';
-                        
-                        [...word].forEach(char => {
-                            const charSpan = document.createElement('span');
-                            charSpan.className = 'split-char';
-                            charSpan.style.display = 'inline-block';
-                            charSpan.textContent = char;
-                            wordSpan.appendChild(charSpan);
-                        });
-                        fragment.appendChild(wordSpan);
-                    }
-                });
-                textNode.parentNode.replaceChild(fragment, textNode);
-            });
-
-            const chars = heading.querySelectorAll('.split-char');
-            gsap.from(chars, {
-                rotation: 90,
-                transformOrigin: "top center",
-                opacity: 0,
-                duration: 1.8,
-                stagger: 0.05,
-                ease: "power2.out",
-                scrollTrigger: {
-                    trigger: heading,
-                    start: "top 85%",
-                    toggleActions: "play none none reverse"
-                }
-            });
-        });
-    }
 });
 
-// --- CURSOR DASHED LINE TRAIL ---
+//cursor dashed line
 document.addEventListener('DOMContentLoaded', () => {
     let lastX = 0;
     let lastY = 0;
@@ -132,7 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const dy = e.clientY - lastY;
         const distance = Math.sqrt(dx * dx + dy * dy);
 
-        if (distance > distanceThreshold) {
+        if(distance > distanceThreshold) {
+
             const angle = Math.atan2(dy, dx) * (180 / Math.PI);
             lastX = e.clientX;
             lastY = e.clientY;
@@ -149,18 +58,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 opacity: 0,
                 duration: 0.6,
                 ease: "power1.out",
-                onComplete: () => { dash.remove(); }
+                onComplete: () => {
+                    dash.remove();
+                }
             });
         }
     });
 });
 
-// --- SIDE CART LOGIC & MANAGEMENT ---
+// Side Cart/ Bag 
+
+//get items - initialize empty state
 function getCart() {
     try {
         return JSON.parse(localStorage.getItem('thats_t_cart')) || [];
     } catch (e) {
-        return [];
+        return[];
     }
 }
 
@@ -169,11 +82,12 @@ function saveCart(cart) {
     updateCartUI();
 }
 
+// add item to cart 
 function addToCart(newItem) {
     const cart = getCart();
     const existingIndex = cart.findIndex(item => item.id === newItem.id && item.size === newItem.size);
 
-    if (existingIndex > -1) {
+    if(existingIndex > -1) {
         cart[existingIndex].quantity = (cart[existingIndex].quantity || 1) + 1;
     } else {
         newItem.quantity = 1;
@@ -184,30 +98,37 @@ function addToCart(newItem) {
     openCart();
 }
 
+//remove item from cart
 function removeFromCart(index) {
     const cart = getCart();
     cart.splice(index, 1);
     saveCart(cart);
 }
 
+//open cart controls
 function openCart() {
     const drawer = document.getElementById('cart-drawer');
     const overlay = document.getElementById('cart-overlay');
-    if (drawer && overlay) {
-        drawer.classList.add('active');
-        overlay.classList.add('active');
-    }
+
+    if(!drawer || !overlay) return;
+
+    overlay.classList.add('active');
+    drawer.classList.add('active');    
 }
 
+
+// close cart controls 
 function closeCart() {
     const drawer = document.getElementById('cart-drawer');
     const overlay = document.getElementById('cart-overlay');
-    if (drawer && overlay) {
-        drawer.classList.remove('active');
-        overlay.classList.remove('active');
-    }
+
+    if(!drawer || !overlay) return;
+
+    drawer.classList.remove('active');
+    overlay.classList.remove('active');
 }
 
+//render cart content and icon update
 function updateCartUI() {
     const cart = getCart();
     const cartBody = document.getElementById('cart-body');
@@ -226,16 +147,22 @@ function updateCartUI() {
 
     if (!cartBody || !cartFooter) return;
 
+    // 2. Render Body (Empty vs Populated)
     if (cart.length === 0) {
         cartBody.innerHTML = `
             <div class="cart-empty-state">
                 <p>girl it's empty!<br>let's add some pieces</p>
             </div>
         `;
+        // Move the shop all button into the footer so it's pinned at the bottom
         cartFooter.style.display = 'block';
-        cartFooter.innerHTML = `<a href="shop.html" class="cart-shop-btn">shop all</a>`;
+        cartFooter.innerHTML = `
+            <a href="shop.html" class="cart-shop-btn">shop all</a>
+        `;
     } else {
         cartFooter.style.display = 'block';
+        
+        // Calculate subtotal in ZAR (R)
         const subtotal = cart.reduce((sum, item) => sum + (item.price * (item.quantity || 1)), 0);
 
         cartBody.innerHTML = `
@@ -270,3 +197,28 @@ function updateCartUI() {
         `;
     }
 }
+
+// Event Listeners on Page Load
+document.addEventListener('DOMContentLoaded', () => {
+    updateCartUI();
+
+    // Toggle Cart Drawer on Bag Icon Click
+    const bagToggleBtn = document.getElementById('bag-toggle-btn');
+    const closeBtn = document.getElementById('cart-close-btn');
+    const overlay = document.getElementById('cart-overlay');
+
+    if (bagToggleBtn) {
+        bagToggleBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openCart();
+        });
+    }
+
+    if (closeBtn) {
+        closeBtn.addEventListener('click', closeCart);
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', closeCart);
+    }
+});
