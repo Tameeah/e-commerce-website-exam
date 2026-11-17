@@ -45,7 +45,49 @@ document.addEventListener('DOMContentLoaded', () => {
     if (featuredGrid) {
         loadFeaturedProducts()
     }
+    initLandingReveal();
 });
+
+function initLandingReveal() {
+    if (typeof gsap === 'undefinded') return;
+
+    const logo = document.querySelector('.logo-container');
+    const navLinks = document.querySelectorAll('.nav-links .nav-item, .nav-links .dropdown-wrap');
+    const navActions = document.querySelectorAll('.nav-actions >*');
+    const heroGraphic = document.querySelector('.hero-graphic-container');
+
+    const revealTl = gsap.timeline({
+        defaults: { ease: "power3.out"}
+    });
+
+    gsap.set([logo, navLinks, navActions, heroGraphic], {
+        y: 40,
+        opacity: 0
+    });
+
+    revealTl.to(logo, {
+        y:0,
+        opacity: 1,
+        duration: 1.0
+    })
+    .to(navLinks, {
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        stagger: -.1
+    }, "-=0.7")
+    .to(navActions, {
+        y: 0,
+        opacity: 1,
+        duration: 0.9,
+        stagger: 0.15
+    }, "-=0.7")
+    .to(heroGraphic, {
+        y: 0,
+        opacity: 1,
+        duration: 1.2
+    }, "-=0.6")
+}
 
 //GSAP
 function initGSAPMotion() {
