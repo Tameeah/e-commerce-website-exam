@@ -85,6 +85,7 @@ function renderProductDetails(product) {
 function initGallerySlider(images) {
     let currentIndex = 0;
     const activeImg = document.getElementById('active-gallery-img');
+    const galleryWrap = document.querySelector('.gallery-main-wrap');
     const dots = document.querySelectorAll('.gallery-dot');
     const prevBtn = document.querySelector('.prev-arrow');
     const nextBtn = document.querySelector('.next-arrow');
@@ -119,6 +120,31 @@ function initGallerySlider(images) {
     dots.forEach((dot, idx) => {
         dot.addEventListener('click', () => updateImage(idx));
     });
+
+    //touch swipe for mobile device
+    if (galleryWrap && images.length > 1) {
+        let touchStartX = 0;
+        let touchEndX = 0;
+
+        galleryWrap.addEventListener('touchstart', (e) => {
+            touchStartX = e.changedTouches[0].screenX;
+        }, { passive: true });
+
+        galleryWrap.addEventListener('touchend', (e) => {
+            touchEndX = e.changedTouches[0].screenX;
+            const swipeThreshold = 40; // Minimum swipe distance in px
+
+            if (touchStartX - touchEndX > swipeThreshold) {
+                // Swiped Left -> Next Image
+                const nextIdx = (currentIndex + 1) % images.length;
+                updateImage(nextIdx);
+            } else if (touchEndX - touchStartX > swipeThreshold) {
+                // Swiped Right -> Previous Image
+                const prevIdx = (currentIndex - 1 + images.length) % images.length;
+                updateImage(prevIdx);
+            }
+        }, { passive: true });
+    }
 }
 
 // 5. Size Selection State Logic
