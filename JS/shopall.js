@@ -124,6 +124,7 @@ if (filterToggleBtn && filterDropdownMenu) {
 document.addEventListener('DOMContentLoaded', () => {
   // Initial fetch for shop page products
   fetchProducts('all');
+  initGooeyCategoryBlob();
 
   // Search bar Toggle & Navigation Logic (Matching index.js)
   if (searchToggleBtn && searchInput) {
@@ -163,6 +164,64 @@ document.addEventListener('DOMContentLoaded', () => {
   //initialize GSAP motion system
     initGSAPMotion();
 });
+
+//gooey blob for category abrs
+function initGooeyCategoryBlob() {
+  const controlsBar = document.querySelector('.shop-controls-bar');
+  if(!controlsBar) return;
+
+  const tabs = controlsBar.querySelectorAll('.cat-tab');
+  if(tabs.length === 0) return;
+
+  let blob = controlsBar.querySelector('.blob');
+  if(!blob) {
+    blob = document.createElement('div');
+    blob.className = 'blob';
+    controlsBar.appendChild(blob);
+  }
+
+  function moveBlob(target) {
+    const barRect = controlsBar.getBoundingClientRect();
+    const targetRect = target.getBoundingClientRect();
+    const relativeLeft = targetRect.left - barRect.left;
+
+    gsap.to(blob, {
+      left: relativeLeft,
+      width: targetRect.width,
+      duration: 0.4,
+      ease: "power2.out"
+    });
+  }
+
+  const activeTab = controlsBar.querySelector('.cat-tab.active') || tabs[0];
+
+  requestAnimationFrame(() => {
+    const initialRect = activeTab.getBoundingClientRect();
+    gsap.set(blob, {
+      left: initialRect.left - barRect.left,
+      width: initialRect.width
+    });
+  });
+
+  tabs.forEach(tab => {
+    tab.addEventListener('mouseenter', () => {
+        moveBlob(tab);
+    });
+  });
+
+  controlsBar.addEventListener('mouseleave', () => {
+    const currentActive = controlsBar.querySelector('.cat-tab.active') || tabs[0];
+     moveBlob(currentActive);
+  });
+
+  tabs.forEach(tab => {
+    tab.addEventListener('click', () => {
+      tabs.forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      moveBlob(tab);
+    });
+  });
+}
 
 //GSAP 
 function initGSAPMotion() {

@@ -534,7 +534,6 @@ img {
 }
 
 /* shop page main */
-
 .shop-main {
   padding: 40px 64px 80px 64px;
   max-width: 1400px;
@@ -571,6 +570,17 @@ img {
 }
 
 /* category tabs */
+.shop-controls-bar {
+  position: relative;
+  display: flex;
+  gap: 8px;
+  background-color: #E7E7E7;
+  padding: 4px;
+  border-radius: var(--border-radius-pill);
+  width: fit-content;
+  overflow: hidden;
+}
+
 .category-tabs {
     display: flex;
     gap:16px;
@@ -578,15 +588,19 @@ img {
 }
 
 .cat-tab {
-    background-color: var(--color-burgandy);
-    border: 2px solid var(--color-burgandy);
-    padding: 8px 24px;
-    border-radius: var(--border-radius-pill);
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: var(--color-mercury);
-    cursor: pointer;
-    transition: all 0.2 ease;
+  position: relative;
+  z-index: 2;
+  background: transparent;    
+  border: none;
+  padding: 8px 20px;
+  border-radius: var(--border-radius-pill);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--color-black);
+  cursor: pointer;
+  transition: all 0.3 ease;
+  text-transform: lowercase;
 }
 
 .cat-tab:hover {
@@ -597,8 +611,20 @@ img {
 
 .cat-tab.active {
     background-color: var(--color-mercury); 
-    color: var(--color-burgandy);
+    color: var(--color-black);
     border: 2px solid var(--color-burgandy);
+}
+
+.shop-controls-bar .blob {
+  position: absolute;
+  top: 4px;
+  bottom: 4px;
+  left: 0;
+  width: 0px;
+  background-color: var(--color-yellow-hover);
+  border-radius: var(--border-radius-pill);
+  z-index: 1;
+  pointer-events: none;
 }
 
 /* filter and sort */
