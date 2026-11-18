@@ -59,6 +59,7 @@
                 <svg class="icon" viewBox="0 0 24 24" width="20" height="20"><path fill="none" stroke="currentColor" stroke-width="2" d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm6 16H6V8h2v2c0 .55.45 1 1 1s1-.45 1-1V8h4v2c0 .55.45 1 1 1s1-.45 1-1V8h2v12z"/></svg>
                 <span class="bag-badge" id="bag-badge">0</span>
             </button>
+            <div class="search-dropdown-results" id="search-dropdown-results"></div> 
         </div>
     </header>
 
@@ -128,6 +129,26 @@
 
         <div class="cart-footer" id="cart-footer">
             <!--JS injected-->
+        </div>
+    </div>
+
+    <!--mobile response navigation menu-->
+    <div class="mobile-nav-overlay" id="mobile-nav-overlay">
+        <div class="mobile-nav-content-box">
+            <button class="mobile-nav-close-btn" id="mobile-nav-close-btn" aria-label="Close menu">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                </svg>
+            </button>
+            <img src="../Assets/images/Logo.png" alt="watermark Bow" class="mobile-nav-bg-bow" />
+        
+            <nav class="mobile-nav-links-stack">
+                <a href="index.html" class="mobile-nav-link">home</a>
+                <a href="shop.html" class="mobile-nav-link">shop all</a>
+                <a href="about.html" class="mobile-nav-link">about</a>
+                <a href="contact.html" class="mobile-nav-link">contact</a>
+            </nav>
         </div>
     </div>
 
