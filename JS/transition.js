@@ -29,6 +29,106 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+//dropdown menu search 
+document.addEventListener('DOMContentLoaded', () => {
+    const searchToggleBtn = document.getElementById('search-toggle-btn');
+    const searchInput = document.getElementById('global-search-input');
+    const searchDropdown = document.getElementById('search-dropdown-results');
+
+    if (!searchToggleBtn || !searchInput || !searchDropdown) {
+        console.warn("Search elements not found on this page.");
+        return;
+    }
+
+    // Toggle search bar input expansion
+    searchToggleBtn.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        
+        searchInput.classList.toggle('active');
+        
+        if (searchInput.classList.contains('active')) {
+            // Small timeout to allow CSS width expansion before focusing
+            setTimeout(() => {
+                searchInput.focus();
+            }, 50);
+        } else {
+            searchDropdown.classList.remove('active');
+            searchInput.value = '';
+        }
+    });
+
+    searchInput.addEventListener('focus', () => {
+        searchInput.classList.add('active');
+    });
+
+    let searchTimeout;
+    searchInput.addEventListener('input', (e) => {
+        const query = e.target.value.trim().toLowerCase();
+        clearTimeout(searchTimeout);
+
+        if (query.length === 0) {
+            searchDropdown.innerHTML = '';
+            searchDropdown.classList.remove('active');
+            return;
+        }
+
+        searchTimeout = setTimeout(async () => {
+            try {
+                const response = await fetch(`https://dummyjson.com/products/search?q=${encodeURIComponent(query + ' women')}`);
+                const data = await response.json();
+                let products = data.products || [];
+
+                products = products.filter(p => 
+                    p.category.includes('women') || 
+                    p.category.includes('tops') || 
+                    p.category.includes('dress') ||
+                    p.title.toLowerCase().includes('top') ||
+                    p.title.toLowerCase().includes('dress') ||
+                    p.title.toLowerCase().includes('polo') ||
+                    p.title.toLowerCase().includes('shirt')
+                );
+
+                if (products.length === 0) {
+                    searchDropdown.innerHTML = `<p style="font-size:0.85rem; text-align:center; padding:10px; color:#666;">No pieces found</p>`;
+                    searchDropdown.classList.add('active');
+                    return;
+                }
+
+                // Render matching products into the dropdown
+                searchDropdown.innerHTML = products.slice(0, 4).map(product => {
+                    const priceInZar = Math.round(product.price * 18);
+                    const thumb = product.thumbnail || (product.images && product.images[0]) || '';
+
+                    return `
+                        <a href="product.html?id=${product.id}" class="search-result-item">
+                            <img src="${thumb}" alt="${product.title}" class="search-result-img" />
+                            <div class="search-result-info">
+                                <span class="search-result-title">${product.title}</span>
+                                <span class="search-result-price">R ${priceInZar}</span>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+
+                searchDropdown.classList.add('active');
+
+            } catch (err) {
+                console.error("Search error:", err);
+            }
+        }, 300); // 300ms debounce
+    });
+
+    // Close dropdown when clicking outside
+    document.addEventListener('click', (e) => {
+        const container = document.getElementById('search-container');
+        if (container && !container.contains(e.target)) {
+            searchDropdown.classList.remove('active');
+            searchInput.classList.remove('active');
+        }
+    });
+});
+
 //cursor dashed line
 document.addEventListener('DOMContentLoaded', () => {
     let lastX = 0;

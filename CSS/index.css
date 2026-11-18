@@ -249,6 +249,8 @@ img {
     color: var(--color-burgandy);
 }
 
+
+
 /* mobile response navigation page */
 
 .mobile-nav-overlay {
@@ -390,6 +392,86 @@ img {
 .icon-btn:hover {
   color: var(--color-burgandy);
 }
+
+/* dropdown menu for search */
+
+.search-container {
+  position: relative;
+}
+
+.search-dropdown-results {
+  position: absolute;
+  top: calc(100% + 12px);
+  right: 0;
+  width: 280px;
+  max-height: 340px;
+  overflow-y: auto;
+  background-color: var(--color-mercury, #E7E7E7);
+  border: 2px solid var(--color-burgandy, #70020F);
+  border-radius: 20px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 12px;
+  z-index: 1000;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-8px);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.search-dropdown-results.active {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.search-result-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px;
+  border-radius: 12px;
+  background-color: #ffffff;
+  text-decoration: none;
+  color: var(--color-black, #0D0000);
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.search-result-item:hover {
+  background-color: var(--color-yellow-hover, #FFEBA2);
+  transform: translateX(-2px);
+}
+
+.search-result-img {
+  width: 50px;
+  height: 60px;
+  border-radius: 8px;
+  object-fit: cover;
+  background-color: #f0f0f0;
+  flex-shrink: 0;
+}
+
+.search-result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.search-result-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--color-burgandy, #70020F);
+  line-height: 1.2;
+}
+
+.search-result-price {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--color-black, #0D0000);
+}
+
 
 /* Side Cart/ Bag */
 
