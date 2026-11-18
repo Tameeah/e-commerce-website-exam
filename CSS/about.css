@@ -725,7 +725,7 @@ img {
 
 .about-section-1 {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 3.2fr 1fr;
     gap: 48px;
     align-items: flex-start;
     width: 100%;
@@ -733,24 +733,29 @@ img {
 
 .sec1-left {
     display: flex;
+    flex-direction: row;
     align-items: flex-start;
-    gap: 24px;
+    gap: 32px;
+    width: 100%;
 }
+
 
 .sec1-tall-img,
 .sect1-tall-img {
-    height: 520px;
-    width:auto; 
-    max-width: 480px;
+    height: 500px;
+    width:45%; 
+    min-width: 280px;
     object-fit: cover;
     border-radius: 0;
+    flex-shrink: 0;
 }
 
-.sec1-text-group
-.sect-text-group {
+.sec1-text-group,
+.sect1-text-group {
     display: flex;
     flex-direction: column;
     gap: 12px;
+    flex: 1;
 }
 
 .brand-title {
@@ -760,10 +765,10 @@ img {
 }
 
 .section-desc {
-    font-size: 0.9rem;
+    font-size: 0.95rem;
     color: var(--color-black);
     line-height: 1.5;
-    max-width: 260px;
+    max-width: 100%;
 }
 
 .sec1-right {
@@ -776,7 +781,8 @@ img {
 }
 
 .sec1-med-img {
-    width: 220px;
+    width: 100%;
+    max-width: 220px;
     height: 260px;
     object-fit: cover;
     border-radius: 0px;
