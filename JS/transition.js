@@ -66,6 +66,35 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+// mobile response navigation page
+document.addEventListener('DOMContentLoaded', () => {
+    const hamburgerBtn = document.getElementById('mobile-menu-btn');
+    const navOverlay = document.getElementById('mobile-nav-overlay');
+    const closeBtn = document.getElementById('mobile-nav-close-btn');
+
+    if(hamburgerBtn && navOverlay) {
+        hamburgerBtn.addEventListener('click', () => {
+            navOverlay.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    }
+
+    if(closeBtn && navOverlay) {
+        closeBtn.addEventListener('click', () => {
+            navOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    }
+
+    const navLinks = document.querySelectorAll('.mobile-nav-link');
+     navLinks.forEach(link => {
+        link.addEventListener('click', () => {
+            navOverlay.classList.remove('active');
+            document.body.style.overflow = '';
+        });
+    });
+});
+
 // Side Cart/ Bag 
 
 //get items - initialize empty state
