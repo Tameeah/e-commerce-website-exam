@@ -436,9 +436,6 @@ async function loadFeaturedProducts() {
             });
         });
 
-        //pagination dots based on scroll position
-        setupScrollPagination();
-
         } catch (error) {
             //4. Error State - Display an error message
             console.error("API Fetch Error:", error);
@@ -447,41 +444,6 @@ async function loadFeaturedProducts() {
                     <p>Sorry, we couldn't load the featured products at this time. Please try again later.</p>
                 </div>
             `; 
-        }     
+        }    
     }
-
-//function to update scroll pagniation dots
-function setupScrollPagination() {
-    const scrollWrapper = document.getElementById('featured-scroll-wrapper');
-    const dotsContainer = document.getElementById('pagination-dots');
-
-    if (!scrollWrapper || !dotsContainer) return;
-
-    const cards = scrollWrapper.querySelectorAll('.product-card');
-    if(cards.length === 0) return; 
-
-    const totalDots = Math.min(cards.length,4);
-    dotsContainer.innerHTML = ''
-
-    for (let i=0; i < totalDots; i++) {
-        const dot = document.createElement('span');
-        dot.className = `dot ${i === 0 ? `active` : ''}`;
-        dotsContainer.appendChild(dot);
-    }
-
-    const dots = dotsContainer.querySelectorAll('.dot');
-
-    scrollWrapper.addEventListener('scroll', () => {
-        const scrollPercentage = scrollWrapper.scrollLeft / (scrollWrapper.scrollWidth - scrollWrapper.clientWidth);
-        const activeIndex = Math.min(Math.floor(scrollPercentage * totalDots), totalDots - 1);
-
-        dots.forEach((dot, index) => {
-            if (index === activeIndex) {
-                    dot.classList.add('active');
-            } else {
-                 dot.classList.remove('active');
-            }
-        });
-    });        
-}
 

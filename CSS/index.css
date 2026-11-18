@@ -427,51 +427,6 @@ img {
   transform: translateY(0);
 }
 
-.search-result-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 8px;
-  border-radius: 12px;
-  background-color: #ffffff;
-  text-decoration: none;
-  color: var(--color-black, #0D0000);
-  transition: background-color 0.2s ease, transform 0.2s ease;
-}
-
-.search-result-item:hover {
-  background-color: var(--color-yellow-hover, #FFEBA2);
-  transform: translateX(-2px);
-}
-
-.search-result-img {
-  width: 50px;
-  height: 60px;
-  border-radius: 8px;
-  object-fit: cover;
-  background-color: #f0f0f0;
-  flex-shrink: 0;
-}
-
-.search-result-info {
-  display: flex;
-  flex-direction: column;
-  gap: 2px;
-}
-
-.search-result-title {
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: var(--color-burgandy, #70020F);
-  line-height: 1.2;
-}
-
-.search-result-price {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--color-black, #0D0000);
-}
-
 
 /* Side Cart/ Bag */
 
@@ -868,14 +823,6 @@ img {
   color: var(--color-white);
 }
 
-/* Pagination Dots */
-.pagination-dots {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 24px;
-}
 
 .dot {
   width: 8px;
@@ -1071,9 +1018,6 @@ img {
     flex: none; 
   }
 
-  .pagination-dots {
-    display: none;
-  }
 
   .section-cta {
     display: flex;
