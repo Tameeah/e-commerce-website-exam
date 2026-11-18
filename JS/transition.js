@@ -218,11 +218,11 @@ function updateCartUI() {
         `;
 
         cartFooter.innerHTML = `
-            <div class="cart-subtotal-row">
+           <div class="cart-subtotal-row">
                 <span>Subtotal:</span>
                 <span>R${subtotal}</span>
             </div>
-            <button class="cart-checkout-btn" onclick="alert('Proceeding to checkout...')">checkout</button>
+            <a href="checkout.html" class="cart-checkout-btn" style="text-align: center; text-decoration: none; display: block;">checkout</a>
         `;
     }
 }

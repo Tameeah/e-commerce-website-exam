@@ -184,8 +184,8 @@ function initSizeSelector() {
       }
 
       // Button feedback animation
-      bagBtn.textContent = `added (${selectedSize}) ✓`;
-      bagBtn.style.backgroundColor = '#333';
+      bagBtn.textContent = `added to bag`;
+      bagBtn.style.backgroundColor = '#FFEBA2';
       setTimeout(() => {
         bagBtn.textContent = 'add to bag';
         bagBtn.style.backgroundColor = '';

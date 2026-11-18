@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Checkout | That's T </title>
+    <link rel="stylesheet" href="../CSS/checkout.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js" defer></script>
+</head>
+<body>
+
+    <!-- Page Transition Curtains -->
+    <div class="curtain curtain-left"></div>
+    <div class="curtain curtain-right"></div>
+
+    <!-- Cursor dash line Element -->
+    <div class="cursor-dash"></div>
+
+    <header class="checkout-header">
+        <a href="index.html" class="checkout-brand">That's T Checkout</a>
+        <button class="icon-btn bag-icon-btn" aria-label="Bag">
+            <svg class="icon" viewBox="0 0 24 24" width="22" height="22"><path fill="none" stroke="currentColor" stroke-width="2" d="M18 6h-2c0-2.21-1.79-4-4-4S8 3.79 8 6H6c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-6-2c1.1 0 2 .9 2 2h-4c0-1.1.9-2 2-2zm6 16H6V8h2v2c0 .55.45 1 1 1s1-.45 1-1V8h4v2c0 .55.45 1 1 1s1-.45 1-1V8h2v12z"/></svg>
+        </button>
+    </header>
+
+    <!-- Main Checkout Container (Split Left / Right) -->
+    <main class="checkout-main">
+        
+        <!-- Left Column: Form Details -->
+        <div class="checkout-form-col">
+            <form id="checkout-form" onsubmit="event.preventDefault(); alert('Order placed successfully! This is a demo checkout page.');">
+                
+                <!-- Contact Section -->
+                <div class="checkout-section">
+                    <div class="section-header-row">
+                        <h2 class="checkout-section-title">Contact</h2>
+                        <span class="sign-in-text">Sign in</span>
+                    </div>
+                    <div class="form-group">
+                        <input type="email" placeholder="Email" class="checkout-input" required />
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="news-checkbox" />
+                        <label for="news-checkbox">Email me with news and offers</label>
+                    </div>
+                </div>
+
+                <!-- Delivery Section -->
+                <div class="checkout-section">
+                    <h2 class="checkout-section-title">Delivery</h2>
+                    
+                    <div class="form-group">
+                        <select class="checkout-input checkout-select">
+                            <option value="South Africa">South Africa</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row-dual">
+                        <input type="text" placeholder="First name" class="checkout-input" required />
+                        <input type="text" placeholder="Last name" class="checkout-input" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" placeholder="Company (optional)" class="checkout-input" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" placeholder="Address" class="checkout-input" required />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" placeholder="Apartment, suite, etc. (optional)" class="checkout-input" />
+                    </div>
+
+                    <div class="form-row-triple">
+                        <input type="text" placeholder="City" class="checkout-input" required />
+                        <input type="text" placeholder="Province" class="checkout-input" required />
+                        <input type="text" placeholder="Postal code" class="checkout-input" required />
+                    </div>
+                </div>
+
+                <!-- Payment Section -->
+                <div class="checkout-section">
+                    <h2 class="checkout-section-title">Payment</h2>
+                    <p class="payment-subtitle">All transactions are secure and encrypted.</p>
+                    
+                    <div class="payment-box">
+                        <div class="payment-method-header">
+                            <span>Credit Card</span>
+                        </div>
+                        <div class="form-group" style="margin-top: 16px;">
+                            <input type="text" placeholder="Card number" class="checkout-input" />
+                        </div>
+                        <div class="form-row-dual">
+                            <input type="text" placeholder="Expiration date (MM / YY)" class="checkout-input" />
+                            <input type="text" placeholder="Security code" class="checkout-input" />
+                        </div>
+                        <div class="form-group">
+                            <input type="text" placeholder="Name on card" class="checkout-input" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pay Now Button -->
+                <button type="submit" class="btn primary-btn pay-now-btn">Pay now</button>
+            </form>
+        </div>
+
+        <!-- Right Column: Order Summary (Injected via JS) -->
+        <div class="checkout-summary-col">
+            <div class="summary-card" id="checkout-summary-container">
+                <!-- Dynamic Cart Items Rendered Here -->
+            </div>
+        </div>
+    </main>
+
+    <script src="../JS/transition.js"></script>
+    <script src="../JS/checkout.js"></script>
+</body>
+</html>
