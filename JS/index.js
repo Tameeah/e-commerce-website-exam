@@ -98,7 +98,7 @@ function initGSAPMotion() {
     const heroSection = document.querySelector('.hero-section');
     const heroBow = document.querySelector('.hero-bow');
 
-    if (heroSection && heroBow) {
+    if (heroSection && heroBow && window.innerWidth > 768) {
         const xTo = gsap.quickTo(heroBow, "x", { duration: 0.7, ease: "power3.out" });
         const yTo = gsap.quickTo(heroBow, "y", { duration: 0.7, ease: "power3.out" });
         const rotateTo = gsap.quickTo(heroBow, "rotation", { duration: 0.8, ease: "power3.out" });
