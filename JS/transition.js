@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     const thumb = product.thumbnail || (product.images && product.images[0]) || '';
 
                     return `
-                        <a href="product.html?id=${product.id}" class="search-result-item">
+                        <a href="../Pages/product.html?id=${product.id}" class="search-result-item">
                             <img src="${thumb}" alt="${product.title}" class="search-result-img" />
                             <div class="search-result-info">
                                 <span class="search-result-title">${product.title}</span>
@@ -296,7 +296,7 @@ function updateCartUI() {
         // Move the shop all button into the footer so it's pinned at the bottom
         cartFooter.style.display = 'block';
         cartFooter.innerHTML = `
-            <a href="shop.html" class="cart-shop-btn">shop all</a>
+            <a href="../Pages/shop.html" class="cart-shop-btn">shop all</a>
         `;
     } else {
         cartFooter.style.display = 'block';
@@ -332,7 +332,7 @@ function updateCartUI() {
                 <span>Subtotal:</span>
                 <span>R${subtotal}</span>
             </div>
-            <a href="checkout.html" class="cart-checkout-btn" style="text-align: center; text-decoration: none; display: block;">checkout</a>
+            <a href="../Pages/checkout.html" class="cart-checkout-btn" style="text-align: center; text-decoration: none; display: block;">checkout</a>
         `;
     }
 }
